@@ -1,0 +1,16 @@
+version: '3'
+services:
+  nrs-school:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: sua_senha # Substitua 'sua_senha' pela senha desejada
+      MYSQL_USER: usuario # Substitua 'usuario' pelo nome de usuário desejado
+      MYSQL_PASSWORD: senha # Substitua 'senha' pela senha desejada
+      MYSQL_DATABASE: escola
+    volumes:
+      - ./docker/setup.sql:/docker/docker-entrypoint-initdb.d/setup.sql # Monta o arquivo setup.sql no diretório de inicialização do MySQL
+    container_name: nrs-school
