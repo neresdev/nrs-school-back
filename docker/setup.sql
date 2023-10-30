@@ -1,14 +1,10 @@
--- Crie um novo usuário (substitua 'usuario' e 'senha' pelos valores desejados)
-CREATE USER 'usuario'@'%' IDENTIFIED BY 'senha';
+CREATE USER 'develop'@'%' IDENTIFIED BY 'DevelopPass';
 
--- Conceda permissões para o banco de dados
-GRANT ALL PRIVILEGES ON escola.* TO 'usuario'@'%';
+GRANT ALL PRIVILEGES ON NRS_SCHOOL.* TO 'develop'@'%';
 
--- Use o banco de dados escola
-USE escola;
+USE NRS_SCHOOL;
 
--- Crie a tabela "alunos" com uma coluna "nome" do tipo VARCHAR(100)
-CREATE TABLE alunos (
+CREATE TABLE student (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100)
+    name VARCHAR(100)
 );
