@@ -1,2 +1,13 @@
-package com.nrs.school.back.config;public class ModelMapperConfig {
+package com.nrs.school.back.config;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ModelMapperConfig {
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
 }
