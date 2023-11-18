@@ -1,18 +1,18 @@
 package com.nrs.school.back.service;
 
 import com.nrs.school.back.entities.Students;
-import com.nrs.school.back.entities.dto.StudentDTO;
+import com.nrs.school.back.entities.dto.StudentsDTO;
 
 import java.util.List;
 
-public interface StudentService {
+public interface StudentsService {
     Students findById(Integer id);
 
     List<Students> findAll();
 
-    Students create(StudentDTO studentDTO);
+    Students create(StudentsDTO studentsDTO);
 
-    Students update(StudentDTO studentDTO);
+    Students update(StudentsDTO studentsDTO);
 
     void delete(Integer studentId);
 }
