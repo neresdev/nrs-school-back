@@ -4,11 +4,12 @@ import com.nrs.school.back.entities.Students;
 import com.nrs.school.back.entities.dto.StudentsDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentsService {
-    Students findById(Integer id);
+    StudentsDTO findById(Integer id);
 
-    List<Students> findAll();
+    List<StudentsDTO> findAll();
 
     Students create(StudentsDTO studentsDTO);
 
