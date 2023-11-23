@@ -1,10 +1,13 @@
-CREATE USER 'develop'@'%' IDENTIFIED BY 'DevelopPass';
+-- Create a database
+CREATE DATABASE IF NOT EXISTS nrs_school;
 
-GRANT ALL PRIVILEGES ON NRS_SCHOOL.* TO 'develop'@'%';
-
+-- Use the database
 USE nrs_school;
 
-create table students (
-    id int AUTO_INCREMENT primary key,
-    name varchar(100)
+-- Create a table
+CREATE TABLE IF NOT EXISTS students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
+
+

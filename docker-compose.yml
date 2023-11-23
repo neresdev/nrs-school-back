@@ -1,16 +1,13 @@
 version: '3'
 services:
-  db:
+  nrs_school:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: RootPass*
-      MYSQL_USER: develop
-      MYSQL_PASSWORD: DevelopPass
-      MYSQL_DATABASE: nrs_school
-    volumes:
-      - ./docker/setup.sql:/docker/docker-entrypoint-initdb.d/setup.sql
-    container_name: db
+      MYSQL_ROOT_PASSWORD: "RootPass*"
+      MYSQL_DATABASE: "nrs_school"
+      MYSQL_USER: "develop"
+      MYSQL_PASSWORD: "DevelopPass"
