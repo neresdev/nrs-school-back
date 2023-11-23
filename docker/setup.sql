@@ -2,9 +2,9 @@ CREATE USER 'develop'@'%' IDENTIFIED BY 'DevelopPass';
 
 GRANT ALL PRIVILEGES ON NRS_SCHOOL.* TO 'develop'@'%';
 
-USE NRS_SCHOOL;
+USE nrs_school;
 
-CREATE TABLE STUDENT (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100)
+create table students (
+    id int AUTO_INCREMENT primary key,
+    name varchar(100)
 );

@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: RootPass*
       MYSQL_USER: develop
       MYSQL_PASSWORD: DevelopPass
-      MYSQL_DATABASE: NRS_SCHOOL
+      MYSQL_DATABASE: nrs_school
     volumes:
       - ./docker/setup.sql:/docker/docker-entrypoint-initdb.d/setup.sql
     container_name: db
