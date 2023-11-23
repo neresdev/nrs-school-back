@@ -1,7 +1,7 @@
 package com.nrs.school.back.config;
 
 import com.nrs.school.back.entities.Students;
-import com.nrs.school.back.repository.StudentRepostitory;
+import com.nrs.school.back.repository.StudentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import java.util.List;
 public class LocalConfig {
 
     @Autowired
-    private StudentRepostitory repository;
+    private StudentsRepository repository;
 
     @Bean
     public void startDB(){
