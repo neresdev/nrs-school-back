@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StudentRepostitory extends JpaRepository<Students, Integer> {
-    @Query("SELECT name FROM Students")
+public interface StudentsRepository extends JpaRepository<Students, Integer> {
+
+    @Query("SELECT name from Students")
     List<String> findAllStudents();
+
+    List<Students> findAll();
+
 }
