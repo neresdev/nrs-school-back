@@ -11,7 +11,7 @@ public interface StudentsService {
 
     List<StudentsDTO> findAll();
 
-    Students create(StudentsDTO studentsDTO);
+    StudentsDTO create(StudentsDTO studentsDTO);
 
     Students update(StudentsDTO studentsDTO);
 

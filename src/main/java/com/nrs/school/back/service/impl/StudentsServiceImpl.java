@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +36,9 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public Students create(StudentsDTO studentsDTO) {
-        return null;
+    public StudentsDTO create(StudentsDTO studentsDTO) {
+        // TODO fix error when insert new existent user
+        return mapper.map(repository.save(mapper.map(studentsDTO, Students.class)), StudentsDTO.class);
     }
 
     @Override
