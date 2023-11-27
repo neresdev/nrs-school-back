@@ -18,8 +18,8 @@ public class LocalConfig {
 
     @Bean
     public void startDB(){
-        Students students1 = new Students(1, "Student 1");
-        Students students2 = new Students(2, "Student 2");
+        Students students1 = new Students(1, "Student 1", "m423af1");
+        Students students2 = new Students(2, "Student 2", "m34m1en");
 
         repository.saveAll(List.of(students1, students2));
     }
