@@ -17,4 +17,6 @@ public class Students implements Serializable {
 
     private String name;
 
+    private String registration;
+
 }
