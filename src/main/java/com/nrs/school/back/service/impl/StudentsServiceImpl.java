@@ -23,10 +23,10 @@ public class StudentsServiceImpl implements StudentsService {
     public static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
 
     @Autowired
-    private StudentsRepository repository;
+    private StudentsRepository repository; // TODO -> add @RequireArgsConstructor annotation
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper mapper; // TODO -> add @RequireArgsConstructor annotation
     
     @Override
     public List<StudentsDTO> findAll() {
