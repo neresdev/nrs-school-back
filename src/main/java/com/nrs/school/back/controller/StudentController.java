@@ -17,13 +17,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api") // add API version
 public class StudentController {
 
     private static final String REGISTRATION = "/{registration}";
 
     @Autowired
-    private StudentsService service;
+    private StudentsService service; // add @RequiredArgsConstructor
 
     @GetMapping("/all/students")
     public ResponseEntity<List<StudentsDTO>> findAll(){
