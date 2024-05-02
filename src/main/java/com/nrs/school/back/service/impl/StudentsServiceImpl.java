@@ -7,8 +7,9 @@ import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentsRepository;
 import com.nrs.school.back.service.StudentsService;
 
+import lombok.RequiredArgsConstructor;
+
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +17,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StudentsServiceImpl implements StudentsService {
 
     public static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
     public static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
     public static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
 
-    @Autowired
-    private StudentsRepository repository; // TODO -> add @RequireArgsConstructor annotation
+    private final StudentsRepository repository;
 
-    @Autowired
-    private ModelMapper mapper; // TODO -> add @RequireArgsConstructor annotation
+    private final ModelMapper mapper;
     
     @Override
     public List<StudentsDTO> findAll() {

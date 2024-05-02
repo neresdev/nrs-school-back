@@ -2,7 +2,9 @@ package com.nrs.school.back.controller;
 
 import com.nrs.school.back.entities.dto.StudentsDTO;
 import com.nrs.school.back.service.StudentsService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +19,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api") // add API version
+@RequiredArgsConstructor
+@RequestMapping(value = "/api/v1") // add API version
 public class StudentController {
 
     private static final String REGISTRATION = "/{registration}";
 
-    @Autowired
-    private StudentsService service; // add @RequiredArgsConstructor
+    private final StudentsService service;
 
     @GetMapping("/all/students")
     public ResponseEntity<List<StudentsDTO>> findAll(){
