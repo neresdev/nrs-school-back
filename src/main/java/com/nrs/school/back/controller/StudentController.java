@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1") // add API version
+@RequestMapping(value = "/api/v1")
 public class StudentController {
 
     private static final String REGISTRATION = "/{registration}";

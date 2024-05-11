@@ -43,7 +43,7 @@ public class StudentsServiceImpl implements StudentsService {
         String messageValidator = entityValidator(studentsDTO);
         Optional<Students> student = repository.findByRegistration(studentsDTO.getRegistration());
         if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
-        if(student.isPresent()) throw new DataIntegratyViolationException(EXISTING_STUDENT_MESSAGE + student.get().getRegistration());
+        if(student.isPresent()) throw new DataIntegratyViolationException(String.format(EXISTING_STUDENT_MESSAGE, student.get().getRegistration()));
         return mapper.map(repository.save(mapper.map(studentsDTO, Students.class)), StudentsDTO.class);
     }
 
