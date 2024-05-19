@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StudentsServiceImpl implements StudentsService {
 
-    public static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
-    public static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
-    public static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
+    private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
+    private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
+    private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
 
     private final StudentsRepository repository;
 
