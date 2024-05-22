@@ -1,7 +1,7 @@
 package com.nrs.school.back.controller;
 
-import com.nrs.school.back.entities.dto.StudentsDTO;
-import com.nrs.school.back.service.StudentsService;
+import com.nrs.school.back.entities.dto.StudentDTO;
+import com.nrs.school.back.service.StudentService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,33 +25,33 @@ public class StudentController {
 
     private static final String REGISTRATION = "/{registration}";
 
-    private final StudentsService service;
+    private final StudentService service;
 
     @GetMapping("/all/students")
-    public ResponseEntity<List<StudentsDTO>> findAll(){
+    public ResponseEntity<List<StudentDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
     @GetMapping("/get/student" + REGISTRATION)
-    public ResponseEntity<StudentsDTO> findStudentById(@PathVariable String registration){
+    public ResponseEntity<StudentDTO> findStudentById(@PathVariable String registration){
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
 
     @PostMapping("/create/student")
-    public ResponseEntity<StudentsDTO> create(@RequestBody StudentsDTO studentsDTO){
+    public ResponseEntity<StudentDTO> create(@RequestBody StudentDTO studentDTO){
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
-        .buildAndExpand(service.create(studentsDTO).getId()).toUri()).build(); 
+        .buildAndExpand(service.create(studentDTO).getId()).toUri()).build(); 
     }
 
     @PutMapping("/update/student")
-    public ResponseEntity<StudentsDTO> update(@RequestBody StudentsDTO studentsDTO){
+    public ResponseEntity<StudentDTO> update(@RequestBody StudentDTO studentDTO){
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
-        .buildAndExpand(service.update(studentsDTO).getId()).toUri()).build();
+        .buildAndExpand(service.update(studentDTO).getId()).toUri()).build();
         
     }
 
     @DeleteMapping("/delete/student" + REGISTRATION)
-    public ResponseEntity<StudentsDTO> delete(@PathVariable String registration){
+    public ResponseEntity<StudentDTO> delete(@PathVariable String registration){
         service.delete(registration);
         return ResponseEntity.noContent().build();
         

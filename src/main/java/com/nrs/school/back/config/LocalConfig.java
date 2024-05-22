@@ -1,7 +1,7 @@
 package com.nrs.school.back.config;
 
-import com.nrs.school.back.entities.Students;
-import com.nrs.school.back.repository.StudentsRepository;
+import com.nrs.school.back.entities.Student;
+import com.nrs.school.back.repository.StudentRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,13 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalConfig {
     
-    private final StudentsRepository repository;
+    private final StudentRepository repository;
 
     @Bean
     public void startDB(){
-        Students students1 = new Students(1, "Student 1", "m423af1");
-        Students students2 = new Students(2, "Student 2", "m34m1en");
+        Student student1 = new Student(1, "Student 1", "m423af1");
+        Student student2 = new Student(2, "Student 2", "m34m1en");
 
-        repository.saveAll(List.of(students1, students2));
+        repository.saveAll(List.of(student1, student2));
     }
 }
