@@ -33,7 +33,7 @@ public class StudentController {
     }
 
     @GetMapping("/get/student" + REGISTRATION)
-    public ResponseEntity<StudentDTO> findStudentById(@PathVariable String registration){
+    public ResponseEntity<StudentDTO> findStudentByRegistration(@PathVariable String registration){
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
 
