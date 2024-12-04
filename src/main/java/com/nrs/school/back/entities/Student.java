@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "students")
+@Table(name = "STUDENTS")
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

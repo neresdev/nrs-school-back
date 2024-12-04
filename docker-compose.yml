@@ -8,6 +8,6 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "RootPass*"
-      MYSQL_DATABASE: "nrs_school"
+      MYSQL_DATABASE: "NRS_SCHOOL"
       MYSQL_USER: "develop"
       MYSQL_PASSWORD: "DevelopPass"
