@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
@@ -27,7 +26,12 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository repository;
 
     private final ModelMapper mapper;
-    
+
+    public StudentServiceImpl(StudentRepository repository, ModelMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
+
     @Override
     public List<StudentDTO> findAll() {
         return repository.findAll().stream().map(u -> mapper.map(u, StudentDTO.class)).collect(Collectors.toList());
