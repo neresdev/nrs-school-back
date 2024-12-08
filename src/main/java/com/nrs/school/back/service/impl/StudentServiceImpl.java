@@ -55,12 +55,12 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO update(StudentDTO studentsDTO) {
         String messageValidator = entityValidator(studentsDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
-        studentsDTO.setId(findByRegistration(studentsDTO.getRegistration()).getId());
+        studentsDTO.setStudentId(findByRegistration(studentsDTO.getRegistration()).getStudentId());
         return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
     }
 
     @Override
     public void delete(String registration) {
-        repository.deleteById(findByRegistration(registration).getId());
+        repository.deleteById(findByRegistration(registration).getStudentId());
     }
 }

@@ -19,13 +19,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1")
 public class StudentController {
 
     private static final String REGISTRATION = "/{registration}";
 
     private final StudentService service;
+
+    public StudentController(StudentService service) {
+        this.service = service;
+    }
 
     @GetMapping("/all/students")
     public ResponseEntity<List<StudentDTO>> findAll(){
@@ -40,13 +43,13 @@ public class StudentController {
     @PostMapping("/create/student")
     public ResponseEntity<StudentDTO> create(@RequestBody StudentDTO studentDTO){
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
-        .buildAndExpand(service.create(studentDTO).getId()).toUri()).build(); 
+        .buildAndExpand(service.create(studentDTO).getStudentId()).toUri()).build();
     }
 
     @PutMapping("/update/student")
     public ResponseEntity<StudentDTO> update(@RequestBody StudentDTO studentDTO){
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
-        .buildAndExpand(service.update(studentDTO).getId()).toUri()).build();
+        .buildAndExpand(service.update(studentDTO).getStudentId()).toUri()).build();
         
     }
 

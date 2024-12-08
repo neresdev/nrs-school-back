@@ -12,29 +12,40 @@ import lombok.NoArgsConstructor;
 public class StudentDTO {
 
     @JsonIgnore
-    private Integer id;
-    
+    private Integer studentId;
+
     @NotBlank(message = "Name cannot be blank or null")
     @Length(max = 255)
-    private String name;
+    private String studentName;
+
+    @NotBlank(message = "Email cannot be blank or null")
+    private String studentEmail;
 
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
 
-    public Integer getId() {
-        return id;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    public void setStudentEmail(String studentEmail) {
+        this.studentEmail = studentEmail;
     }
 
     public String getRegistration() {
