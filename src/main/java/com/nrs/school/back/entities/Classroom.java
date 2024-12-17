@@ -16,7 +16,7 @@ public class Classroom {
      * Table indentifier
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_CLASSROOM_IDT")
     @Column(name = "IDT_CLASSROOM")
     private Long id;
 

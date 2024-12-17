@@ -1,20 +1,20 @@
 package com.nrs.school.back.config;
 
-import com.nrs.school.back.entities.Classroom;
-import com.nrs.school.back.entities.Student;
-import com.nrs.school.back.repository.ClassroomRepository;
-import com.nrs.school.back.repository.StudentRepository;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
+import com.nrs.school.back.entities.Classroom;
+import com.nrs.school.back.entities.Student;
+import com.nrs.school.back.repository.ClassroomRepository;
+import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
-@Profile("local")
+@Profile({"local-h2", "local-mysql"})
 public class LocalH2Config {
     
     private final StudentRepository studentRepository;
@@ -31,9 +31,9 @@ public class LocalH2Config {
         Student student1 = new Student(null, "Student 1", "student1@gmail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         Student student2 = new Student(null, "Student 2", "student2@gmail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
-        Classroom classroom = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), List.of(student1, student2));
+        Classroom classroom = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), null);
         classroomRepository.save(classroom);
-
+        
         student1.setClassroom(classroom);
         student2.setClassroom(classroom);
         studentRepository.saveAll(List.of(student1, student2));
