@@ -15,7 +15,7 @@ import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
-@Profile({"local-h2", "local-mysql", "dev"})
+@Profile({"local-h2", "local-mysql"})
 public class LocalH2Config {
     private static final Logger log = Logger.getLogger(LocalH2Config.class.getName());
 
@@ -34,11 +34,11 @@ public class LocalH2Config {
         Student student1 = new Student(null, "Student 1", "student1@gmail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         Student student2 = new Student(null, "Student 2", "student2@gmail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
-        Classroom classroom = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), null);
+        Classroom classroom = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         classroomRepository.save(classroom);
         
-        student1.setClassroom(classroom);
-        student2.setClassroom(classroom);
+        student1.setClassroomId(classroomRepository.findAll().get(0).getId());
+        student2.setClassroomId(classroomRepository.findAll().get(0).getId());
         studentRepository.saveAll(List.of(student1, student2));
         log.info("Banco populado com sucesso");
 

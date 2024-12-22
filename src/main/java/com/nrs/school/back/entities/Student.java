@@ -9,8 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
@@ -18,22 +16,36 @@ import jakarta.persistence.Table;
 @Table(name = "STUDENTS")
 public class Student {
 
+    /**
+     * Table identifier
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_STUDENT_IDT")
-    @Column(name = "IDT_STUDENT")
+    @Column(name = "IDT_STUDENT", nullable = false, unique = true)
     private Long studentId;
 
-    @Column(name = "NAME", nullable = false)
+    /**
+     * Student name
+     */
+    @Column(name = "NAME", nullable = false, length = 255)
     private String studentName;
 
-    @Column(name = "EMAIL", unique = true, nullable = false)
+    /**
+     * Student email
+     */
+    @Column(name = "EMAIL", nullable = false, unique = true, length = 255)
     private String studentEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "CLASSROOM_ID")
-    private Classroom classroom;
+    /**
+     * Classrooms table identifier
+     */
+    @Column(name = "CLASSROOM_ID")
+    private Long classroomId;
 
-    @Column(name = "REGISTRATION", length = 7)
+    /**
+     * Student registration
+     */
+    @Column(name = "REGISTRATION", unique = true, length = 7)
     private String registration;
 
     @Column(name = "CREATED_AT", updatable = false)
@@ -50,11 +62,11 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long studentId, String studentName, String studentEmail, Classroom classroom, String registration, LocalDateTime createdAt) {
+    public Student(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
-        this.classroom = classroom;
+        this.classroomId = classroomId;
         this.registration = registration;
         this.createdAt = createdAt;
     }
@@ -83,12 +95,12 @@ public class Student {
         this.studentEmail = studentEmail;
     }
 
-    public Classroom getClassroom() {
-        return classroom;
+    public Long getClassroomId() {
+        return classroomId;
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
+    public void setClassroomId(Long classroomId) {
+        this.classroomId = classroomId;
     }
 
     public String getRegistration() {
@@ -114,4 +126,5 @@ public class Student {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    
 }

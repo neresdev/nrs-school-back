@@ -5,7 +5,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Setter
@@ -65,12 +64,6 @@ public class Classroom {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    /**
-     * Relationship with STUDENTS table
-     */
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students;
-
     @PreUpdate
     public void setUpdatedAt() {
         this.updatedAt = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -79,7 +72,7 @@ public class Classroom {
     public Classroom() {
     }
 
-    public Classroom(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, List<Student> students) {
+    public Classroom(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
         this.id = id;
         this.className = className;
         this.capacity = capacity;
@@ -87,7 +80,6 @@ public class Classroom {
         this.shift = shift;
         this.classNumber = classNumber;
         this.createdAt = createdAt;
-        this.students = students;
     }
 
     public Long getId() {
@@ -112,14 +104,6 @@ public class Classroom {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -5,9 +5,6 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 public class StudentDTO {
 
@@ -20,6 +17,8 @@ public class StudentDTO {
 
     @NotBlank(message = "Email cannot be blank or null")
     private String studentEmail;
+
+    private Long classRoomId;
 
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
@@ -48,6 +47,14 @@ public class StudentDTO {
         this.studentEmail = studentEmail;
     }
 
+    public Long getClassRoomId() {
+        return classRoomId;
+    }
+
+    public void setClassRoomId(Long classRoomId) {
+        this.classRoomId = classRoomId;
+    }
+
     public String getRegistration() {
         return registration;
     }
@@ -55,4 +62,6 @@ public class StudentDTO {
     public void setRegistration(String registration) {
         this.registration = registration;
     }
+
+    
 }
