@@ -1,15 +1,20 @@
+// TODO -> FIX THIS TEST AND CHANGE IT TO INTEGRATION TEST
 // package com.nrs.school.back.controller;
-// TODO -> fix this test
 // import org.junit.jupiter.api.Assertions;
+// import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.Mockito;
+// import org.mockito.MockitoAnnotations;
+// import org.modelmapper.ModelMapper;
 // import org.springframework.boot.test.context.SpringBootTest;
 // import org.springframework.http.HttpStatus;
 // import org.springframework.test.context.ActiveProfiles;
 
-// import com.nrs.school.back.stub.StudentServiceImplStub;
 // import com.nrs.school.back.repository.StudentRepository;
 // import com.nrs.school.back.service.StudentService;
+// import com.nrs.school.back.stub.StudentServiceImplStub;
 
 
 // @SpringBootTest
@@ -18,14 +23,25 @@
 
 //     private static final String DEFAULT_REGISTRATION = "m423af1";
 
-//     @Autowired
+//     @InjectMocks
 //     private StudentController controller;
 
-//     @Autowired
+//     @Mock
 //     private StudentService studentService;
 
-//     @Autowired
+//     @Mock
 //     private StudentRepository studentsRepository;
+
+//     @Mock 
+//     private ModelMapper modelMapper;
+    
+//     @BeforeEach
+//     void setUp(){
+//         MockitoAnnotations.openMocks(this);
+//         studentService = new StudentService(studentsRepository, modelMapper);
+//         controller = new StudentController(studentService);
+//         Mockito.when(studentService.findAll()).thenReturn(StudentServiceImplStub.getStudentsDTO());
+//     }
 
 //     @Test
 //     void whenFindAllThenReturnAllStudents(){
