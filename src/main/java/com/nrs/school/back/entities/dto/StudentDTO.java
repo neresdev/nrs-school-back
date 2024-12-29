@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 public class StudentDTO {
 
     @JsonIgnore
-    private Integer studentId;
+    private Long studentId;
 
     @NotBlank(message = "Name cannot be blank or null")
     @Length(max = 255)
@@ -23,11 +23,27 @@ public class StudentDTO {
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
 
-    public Integer getStudentId() {
+    
+
+    public StudentDTO() {
+    }
+
+    public StudentDTO(Long studentId,
+            @NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
+            @NotBlank(message = "Email cannot be blank or null") String studentEmail, Long classRoomId,
+            @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.studentEmail = studentEmail;
+        this.classRoomId = classRoomId;
+        this.registration = registration;
+    }
+
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Integer studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
