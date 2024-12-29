@@ -2,12 +2,15 @@
 @baseUrlLocal = http://localhost:8081
 
 ### CREATE USER
-POST {{baseUrlLocal}}/api/v1/create/student
-Content-Type: application/json
+# POST {{baseUrlLocal}}/api/v1/create/student
+# Content-Type: application/json
 
-{
-    "studentName": "Mark Osler",
-    "studentEmail": "merk_Osler@omail.com",
-    "classRoomId": 1,
-    "registration": "a2n3laj"
-}
+# {
+#     "studentName": "Mark Osler",
+#     "studentEmail": "merk_Osler@omail.com",
+#     "classRoomId": 1,
+#     "registration": "a2n3laj"
+# }
+
+
+GET {{baseUrlLocal}}/api/v1/all/students
