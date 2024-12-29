@@ -45,7 +45,6 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-			<version>2.3.232</version>
 		</dependency>
 
 		<!-- mapper dependencies -->
