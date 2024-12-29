@@ -16,13 +16,13 @@ import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
 @Profile({"local-h2", "local-mysql"})
-public class LocalH2Config {
-    private static final Logger log = Logger.getLogger(LocalH2Config.class.getName());
+public class LocalConfig {
+    private static final Logger log = Logger.getLogger(LocalConfig.class.getName());
 
     private final StudentRepository studentRepository;
     private final ClassroomRepository classroomRepository;
 
-    public LocalH2Config(StudentRepository studentRepository, ClassroomRepository classroomRepository) {
+    public LocalConfig(StudentRepository studentRepository, ClassroomRepository classroomRepository) {
         this.studentRepository = studentRepository;
         this.classroomRepository = classroomRepository;
     }
@@ -30,9 +30,8 @@ public class LocalH2Config {
     @Bean
     public void startDB(){
         clearDB();
-        log.info("Populando banco...");
-        Student student1 = new Student(null, "Student 1", "student1@gmail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        Student student2 = new Student(null, "Student 2", "student2@gmail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Student student1 = new Student(null, "Student 1", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Student student2 = new Student(null, "Student 2", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
         Classroom classroom = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         classroomRepository.save(classroom);
@@ -40,7 +39,6 @@ public class LocalH2Config {
         student1.setClassroomId(classroomRepository.findAll().get(0).getId());
         student2.setClassroomId(classroomRepository.findAll().get(0).getId());
         studentRepository.saveAll(List.of(student1, student2));
-        log.info("Banco populado com sucesso");
 
     }
 
