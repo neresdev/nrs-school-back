@@ -46,15 +46,19 @@ public class StudentService{
     public StudentDTO create(StudentDTO studentsDTO) {
         String messageValidator = entityValidator(studentsDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
+        
         Optional<Student> student = repository.findByRegistration(studentsDTO.getRegistration());
         if(student.isPresent()) throw new DataIntegratyViolationException(String.format(EXISTING_STUDENT_MESSAGE, student.get().getRegistration()));
+        
         return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
     }
 
     public StudentDTO update(StudentDTO studentsDTO) {
         String messageValidator = entityValidator(studentsDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
+        
         studentsDTO.setStudentId(findByRegistration(studentsDTO.getRegistration()).getStudentId());
+        
         return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
     }
 
