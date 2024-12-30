@@ -1,15 +1,15 @@
 package com.nrs.school.back.entities;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -49,15 +49,13 @@ public class Student {
     private String registration;
 
     @Column(name = "CREATED_AT", updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "UPDATED_AT")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @PreUpdate
-    public void setUpdatedAt() {
-        this.updatedAt = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-    }
 
     public Student() {
     }
