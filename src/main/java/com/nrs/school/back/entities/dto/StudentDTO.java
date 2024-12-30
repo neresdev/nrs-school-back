@@ -39,6 +39,15 @@ public class StudentDTO {
         this.registration = registration;
     }
 
+    public StudentDTO(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
+            @NotBlank(message = "Email cannot be blank or null") String studentEmail, Long classRoomId,
+            @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+        this.studentName = studentName;
+        this.studentEmail = studentEmail;
+        this.classRoomId = classRoomId;
+        this.registration = registration;
+    }
+
     public Long getStudentId() {
         return studentId;
     }
