@@ -27,8 +27,12 @@ public class StudentServiceImplStub {
         return new Student(3l, "Student 3", "student3@fakeemail.com", null, "c8a7s8e", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
     }
 
+    public static Student buildStudent(Long classRoomId){
+        return new Student(3l, "Student 3", "student3@fakeemail.com", classRoomId, "c8a7s8e", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+    }
+
     public static StudentDTO buildStudentDTO(){
-        return new StudentDTO(3l, "Student 3", "student3@fakeemail.com", 2l, "c8a7s8e");
+        return new StudentDTO("Student 3", "student3@fakeemail.com", 2l, "c8a7s8e");
     }
 
     public static StudentDTO buildExistingStudentDTOWithThisRegistration(){
