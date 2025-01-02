@@ -35,5 +35,5 @@ jobs:
         docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
         docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
 
-        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java:latest
-        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java:${{ github.run_id }}
+        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
+        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
