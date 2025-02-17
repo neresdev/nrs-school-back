@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.nrs.school.back.entities.Student;
@@ -19,7 +20,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-@Service
+@Component
 public class StudentService{
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
