@@ -11,11 +11,11 @@ import io.cucumber.java.en.When;
 
 import java.time.LocalDateTime;
 
-public class TestStep extends SpringIntegrationTest {
+public class StudentServiceSteps extends SpringIntegrationTest {
     private final StudentService studentService;
     private final StudentRepository studentRepository;
 
-    public TestStep (StudentService studentService, StudentRepository studentRepository) {
+    public StudentServiceSteps(StudentService studentService, StudentRepository studentRepository) {
         this.studentService = studentService;
         this.studentRepository = studentRepository;
     }
