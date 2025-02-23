@@ -15,7 +15,7 @@ import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
-@Profile({"local-h2", "local-mysql"})
+@Profile({"local-h2", "local-mysql", "test"})
 public class LocalConfig {
     private static final Logger log = Logger.getLogger(LocalConfig.class.getName());
 

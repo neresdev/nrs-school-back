@@ -1,5 +1,4 @@
 Feature: Student workflow
-  Scenario: 1 - students returned
-    When test when
-    Then test then
-    And test and
+  Scenario: 1 - When get find all students should return all students
+    When find all student
+    Then return all students in database

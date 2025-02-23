@@ -18,13 +18,13 @@ import com.nrs.school.back.service.StudentService;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-public class StudentController {
+public class StudentResource {
 
     private static final String REGISTRATION = "/{registration}";
 
     private final StudentService service;
 
-    public StudentController(StudentService service) {
+    public StudentResource(StudentService service) {
         this.service = service;
     }
 
