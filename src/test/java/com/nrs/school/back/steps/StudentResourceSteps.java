@@ -2,25 +2,17 @@ package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
 import com.nrs.school.back.controller.StudentResource;
-import com.nrs.school.back.entities.Student;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.hibernate.ObjectDeletedException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentResourceSteps extends SpringIntegrationTest {
 
@@ -30,8 +22,15 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<List<StudentDTO>> studentsReturned;
 
+    private ResponseEntity<StudentDTO> studentReturned;
+
     public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
         this.studentResource = studentResource;
+    }
+
+    @When("find student by registration {string}")
+    public void findStudentByRegistration(String registration) {
+        this.studentReturned = studentResource.findStudentByRegistration(registration);
     }
 
     @When("find all student")
@@ -55,6 +54,15 @@ public class StudentResourceSteps extends SpringIntegrationTest {
                                                     .findFirst()
                                                     .orElseThrow(()-> new ObjectNotFoundException(NOT_FOUND_MESSAGE))));
 
+    }
+
+    @Then("return a student in database")
+    public void returnAStudentInDatabase() {
+        final var expectedStudent = new StudentDTO(2L, "Student 2", "student2@fakeemail.com", 1L, "m34m1en");
+        final var actualStudent = studentReturned.getBody();
+
+        assertNotNull(actualStudent);
+        assertFields(expectedStudent, actualStudent);
     }
 
     private void assertFields(StudentDTO expected, StudentDTO actual) {
