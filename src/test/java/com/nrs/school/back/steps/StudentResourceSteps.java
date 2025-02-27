@@ -5,11 +5,15 @@ import com.nrs.school.back.controller.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,13 +47,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     }
 
     @Then("return all students in database")
-    public void returnAllStudentsInDatabase() {
-        final var expectedStudents = List.of(
-                new StudentDTO(1L, "Student 1", "student1@fakeemail.com", 1L, "m423af1"),
-                new StudentDTO(2L, "Student 2", "student2@fakeemail.com", 1L, "m34m1en")
-        );
+    public void returnAllStudentsInDatabase(List<Map<String, String>> expectedData) {
+        final var expectedStudents = expectedData.stream().map(this::convertFeatureDataToStudentDto).toList();
 
         assertTrue(studentsReturned.getStatusCode().is2xxSuccessful());
+
         Objects.requireNonNull(studentsReturned.getBody())
                 .forEach(student ->
                         assertFields(student, expectedStudents
@@ -60,9 +62,10 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     }
 
+
     @Then("return a student in database")
-    public void returnAStudentInDatabase() {
-        final var expectedStudent = new StudentDTO(2L, "Student 2", "student2@fakeemail.com", 1L, "m34m1en");
+    public void returnAStudentInDatabase(List<Map<String, String>> expectedData) {
+        final var expectedStudent = expectedData.stream().map(this::convertFeatureDataToStudentDto).toList().get(0);
         final var actualStudent = studentReturned.getBody();
 
         assertNotNull(actualStudent);
@@ -75,6 +78,16 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         assertEquals(expected.getStudentEmail(), actual.getStudentEmail());
         assertEquals(expected.getClassRoomId(), actual.getClassRoomId());
         assertEquals(expected.getRegistration(), actual.getRegistration());
+    }
+
+    private StudentDTO convertFeatureDataToStudentDto(Map<String, String> data){
+        return new StudentDTO(
+                Long.valueOf(data.get("studentId")),
+                data.get("studentName"),
+                data.get("studentEmail"),
+                Long.valueOf(data.get("classRoomId")),
+                data.get("registration")
+        );
     }
 
 }
