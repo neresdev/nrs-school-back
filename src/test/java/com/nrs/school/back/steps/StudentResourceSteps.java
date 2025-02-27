@@ -18,10 +18,6 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * TODO:
- *  1 - Use .feature objects sent the "then" cases
- */
 public class StudentResourceSteps extends SpringIntegrationTest {
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
