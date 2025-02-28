@@ -5,13 +5,10 @@ import com.nrs.school.back.controller.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,13 +25,20 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<StudentDTO> studentReturned;
 
+    private ObjectNotFoundException objectNotFound;
+
     public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
         this.studentResource = studentResource;
     }
 
     @When("find student by registration {string}")
     public void findStudentByRegistration(String registration) {
-        this.studentReturned = studentResource.findStudentByRegistration(registration);
+        try {
+            this.studentReturned = studentResource.findStudentByRegistration(registration);
+        } catch (Exception e){
+            this.objectNotFound = (ObjectNotFoundException) e;
+        }
+
     }
 
     @When("find all student")
@@ -54,7 +58,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
                                                 .stream()
                                                 .filter(s -> Objects.equals(s.getStudentId(), student.getStudentId()))
                                                     .findFirst()
-                                                    .orElseThrow(()-> new ObjectNotFoundException(NOT_FOUND_MESSAGE))));
+                                                    .orElseThrow(()-> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(student.getRegistration())))));
 
     }
 
@@ -66,6 +70,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
         assertNotNull(actualStudent);
         assertFields(expectedStudent, actualStudent);
+    }
+
+    @Then("throw an student with registration {string} not found")
+    public void throwAnException(String registration) {
+        assertEquals(objectNotFound.getMessage(), NOT_FOUND_MESSAGE.formatted(registration));
     }
 
     private void assertFields(StudentDTO expected, StudentDTO actual) {
