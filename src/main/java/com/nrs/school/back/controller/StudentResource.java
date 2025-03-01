@@ -40,7 +40,7 @@ public class StudentResource {
 
     @PostMapping("/create/student")
     public ResponseEntity<StudentDTO> create(@RequestBody StudentDTO studentDTO){
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/v1/get/student/" + REGISTRATION)
         .buildAndExpand(service.create(studentDTO).getStudentId()).toUri()).build();
     }
 

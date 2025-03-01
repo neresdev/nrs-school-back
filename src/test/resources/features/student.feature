@@ -16,3 +16,11 @@ Feature: Student workflow
   Scenario: 3 - When find student by registration not found should return an exception
     When find student by registration "m34m1ea"
     Then throw an student with registration "m34m1ea" not found
+
+  Scenario: 4 - Create a student
+    When create a student
+      | studentId | studentName | studentEmail           | classRoomId | registration |
+      | 1         | Student 1   | student1@fakeemail.com | 1           | m423af2      |
+    Then return a student created
+      | studentId | studentName | studentEmail           | classRoomId | registration |
+      | 1         | Student 1   | student1@fakeemail.com | 1           | m423af2      |

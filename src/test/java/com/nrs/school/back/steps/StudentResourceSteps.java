@@ -27,6 +27,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ObjectNotFoundException objectNotFound;
 
+    private ResponseEntity<StudentDTO> studentCreated;
+
     public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
         this.studentResource = studentResource;
     }
@@ -44,6 +46,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     @When("find all student")
     public void findAllStudent() {
         this.studentsReturned = studentResource.findAll();
+    }
+
+    @When("create a student")
+    public void createStudent(List<Map<String, String>> student) {
+        this.studentCreated = this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
     }
 
     @Then("return all students in database")
@@ -75,6 +82,12 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     @Then("throw an student with registration {string} not found")
     public void throwAnException(String registration) {
         assertEquals(objectNotFound.getMessage(), NOT_FOUND_MESSAGE.formatted(registration));
+    }
+
+    @Then("return a student created")
+    public void returnAStudentCreated(List<Map<String, String>> expectedData) {
+        final var expectedLocation = "http://localhost:8080/api/v1/get/student/1";
+        assertEquals(expectedLocation, Objects.requireNonNull(this.studentCreated.getHeaders().get("Location")).get(0));
     }
 
     private void assertFields(StudentDTO expected, StudentDTO actual) {
