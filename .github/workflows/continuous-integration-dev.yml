@@ -25,12 +25,12 @@ jobs:
     - name: Build application Jar
       working-directory: ./
       run: mvn clean package
-      
+
     - name: Docker compose Build
       working-directory: ./
       run: docker compose build
 
-    - name: Push to Docker Hub Container Registry     
+    - name: Push to Docker Hub Container Registry
       run: |
         docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
         docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
