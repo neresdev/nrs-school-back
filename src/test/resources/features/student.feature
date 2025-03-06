@@ -21,6 +21,4 @@ Feature: Student workflow
     When create a student
       | studentId | studentName | studentEmail           | classRoomId | registration |
       | 1         | Student 1   | student1@fakeemail.com | 1           | m423af2      |
-    Then return a student created
-      | studentId | studentName | studentEmail           | classRoomId | registration |
-      | 1         | Student 1   | student1@fakeemail.com | 1           | m423af2      |
+    Then return a url form the student created

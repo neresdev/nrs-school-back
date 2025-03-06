@@ -1,7 +1,9 @@
-package com.nrs.school.back.controller;
+package com.nrs.school.back.resource;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +26,11 @@ public class StudentResource {
 
     private final StudentService service;
 
-    public StudentResource(StudentService service) {
+    private final Environment env;
+
+    public StudentResource(StudentService service, Environment env) {
         this.service = service;
+        this.env = env;
     }
 
     @GetMapping("/all/students")
@@ -40,8 +45,11 @@ public class StudentResource {
 
     @PostMapping("/create/student")
     public ResponseEntity<StudentDTO> create(@RequestBody StudentDTO studentDTO){
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/v1/get/student/" + REGISTRATION)
-        .buildAndExpand(service.create(studentDTO).getStudentId()).toUri()).build();
+        var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
+                ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
+                : ServletUriComponentsBuilder.fromCurrentRequest();
+
+        return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION).buildAndExpand(service.create(studentDTO).getStudentId()).toUri()).build();
     }
 
     @PutMapping("/update/student")

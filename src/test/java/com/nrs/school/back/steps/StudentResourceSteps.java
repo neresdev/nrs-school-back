@@ -1,7 +1,7 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
-import com.nrs.school.back.controller.StudentResource;
+import com.nrs.school.back.resource.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
@@ -84,8 +84,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         assertEquals(objectNotFound.getMessage(), NOT_FOUND_MESSAGE.formatted(registration));
     }
 
-    @Then("return a student created")
-    public void returnAStudentCreated(List<Map<String, String>> expectedData) {
+    @Then("return a url form the student created")
+    public void returnAStudentCreated() {
         final var expectedLocation = "http://localhost:8080/api/v1/get/student/1";
         assertEquals(expectedLocation, Objects.requireNonNull(this.studentCreated.getHeaders().get("Location")).get(0));
     }
