@@ -1,10 +1,12 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.resource.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,10 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<StudentDTO> studentCreated;
 
+    private DataIntegrityViolationException dataIntegrityViolationInvalidEmailException;
+
+    private DataIntegrityViolationException dataIntegrityViolationExistingRegistrationException;
+
     public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
         this.studentResource = studentResource;
     }
@@ -37,8 +43,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     public void findStudentByRegistration(String registration) {
         try {
             this.studentReturned = studentResource.findStudentByRegistration(registration);
-        } catch (Exception e){
-            this.objectNotFound = (ObjectNotFoundException) e;
+        } catch (ObjectNotFoundException e){
+            this.objectNotFound = e;
         }
 
     }
@@ -50,8 +56,23 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     @When("create a student")
     public void createStudent(List<Map<String, String>> student) {
-        this.studentCreated = this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
+        try {
+            this.studentCreated = this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
+        } catch (DataIntegrityViolationException e) {
+            this.dataIntegrityViolationInvalidEmailException = e;
+        }
     }
+
+    @And("create a student with existing registration")
+    public void createAStudentWithExistingRegistration(List<Map<String, String>> student){
+        try {
+            this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
+        } catch (DataIntegrityViolationException e){
+            this.dataIntegrityViolationExistingRegistrationException = e;
+        }
+
+    }
+
 
     @Then("return all students in database")
     public void returnAllStudentsInDatabase(List<Map<String, String>> expectedData) {
@@ -79,7 +100,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         assertFields(expectedStudent, actualStudent);
     }
 
-    @Then("throw an student with registration {string} not found")
+    @Then("throw an student not found with registration {string} not found")
     public void throwAnException(String registration) {
         assertEquals(objectNotFound.getMessage(), NOT_FOUND_MESSAGE.formatted(registration));
     }
@@ -88,6 +109,18 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     public void returnAStudentCreated() {
         final var expectedLocation = "http://localhost:8080/api/v1/get/student/1";
         assertEquals(expectedLocation, Objects.requireNonNull(this.studentCreated.getHeaders().get("Location")).get(0));
+    }
+
+    @Then("throw an data integraty violation exception")
+    public void throwAnDataIntegratyViolationException(){
+        var expectedMessage = "JSON invalid: Email cannot be blank or null; ";
+        assertEquals(expectedMessage, dataIntegrityViolationInvalidEmailException.getMessage());
+    }
+
+    @Then("return an student already exists exception")
+    public void throwAnDataIntegrityViolationExistingRegistrationException(){
+        var expectedMessage = "Student with registration m423af2 already exists";
+        assertEquals(expectedMessage, dataIntegrityViolationExistingRegistrationException.getMessage());
     }
 
     private void assertFields(StudentDTO expected, StudentDTO actual) {

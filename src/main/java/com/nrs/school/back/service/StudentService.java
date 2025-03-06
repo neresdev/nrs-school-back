@@ -7,11 +7,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.nrs.school.back.entities.Student;
 import com.nrs.school.back.entities.dto.StudentDTO;
-import com.nrs.school.back.exceptions.DataIntegratyViolationException;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
 
@@ -46,17 +45,17 @@ public class StudentService{
 
     public StudentDTO create(StudentDTO studentsDTO) {
         String messageValidator = entityValidator(studentsDTO);
-        if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
+        if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
         Optional<Student> student = repository.findByRegistration(studentsDTO.getRegistration());
-        if(student.isPresent()) throw new DataIntegratyViolationException(String.format(EXISTING_STUDENT_MESSAGE, student.get().getRegistration()));
+        if(student.isPresent()) throw new DataIntegrityViolationException(String.format(EXISTING_STUDENT_MESSAGE, student.get().getRegistration()));
         
         return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
     }
 
     public StudentDTO update(StudentDTO studentsDTO) {
         String messageValidator = entityValidator(studentsDTO);
-        if(!messageValidator.isEmpty()) throw new DataIntegratyViolationException(JSON_INVALID_MESSAGE + messageValidator);
+        if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
         studentsDTO.setStudentId(findByRegistration(studentsDTO.getRegistration()).getStudentId());
         
