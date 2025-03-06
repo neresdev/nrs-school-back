@@ -1,39 +1,39 @@
-#name: Continuous integration with Github, Github Actions and Docker hub
-#
-#on:
-#  push:
-#    branches: [ "develop" ]
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - uses: actions/checkout@v4
-#    - name: Log in to Docker Hub
-#      uses: docker/login-action@v3.3.0
-#      with:
-#          username: ${{ secrets.DOCKER_USR }}
-#          password: ${{ secrets.DOCKER_PWD }}
-#
-#    - name: Setup Java JDK
-#      uses: actions/setup-java@v4.6.0
-#      with:
-#        # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
-#        java-version: '17'
-#        distribution: 'adopt'
-#        cache: maven
-#    - name: Build application Jar
-#      working-directory: ./
-#      run: mvn clean package
-#
-#    - name: Docker compose Build
-#      working-directory: ./
-#      run: docker compose build
-#
-#    - name: Push to Docker Hub Container Registry
-#      run: |
-#        docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
-#        docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
-#
-#        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
-#        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
+name: Continuous integration with Github, Github Actions and Docker hub
+
+on:
+  push:
+    branches: [ "develop" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3.3.0
+      with:
+          username: ${{ secrets.DOCKER_USR }}
+          password: ${{ secrets.DOCKER_PWD }}
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4.6.0
+      with:
+        # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
+        java-version: '17'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build application Jar
+      working-directory: ./
+      run: mvn clean package
+
+    - name: Docker compose Build
+      working-directory: ./
+      run: docker compose build
+
+    - name: Push to Docker Hub Container Registry
+      run: |
+        docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
+        docker tag nrs-school-java:latest ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
+
+        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:latest
+        docker push ${{ secrets.DOCKER_USR }}/nrs-school-java-dev:${{ github.run_id }}
