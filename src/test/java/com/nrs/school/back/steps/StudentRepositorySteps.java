@@ -2,7 +2,6 @@ package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
 import com.nrs.school.back.entities.Student;
-import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.repository.StudentRepository;
 import io.cucumber.java.en.Given;
 
