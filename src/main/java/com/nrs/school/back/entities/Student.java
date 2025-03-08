@@ -60,6 +60,13 @@ public class Student {
     public Student() {
     }
 
+    public Student(String studentName, String studentEmail, Long classroomId, String registration) {
+        this.studentName = studentName;
+        this.studentEmail = studentEmail;
+        this.classroomId = classroomId;
+        this.registration = registration;
+    }
+
     public Student(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
         this.studentId = studentId;
         this.studentName = studentName;

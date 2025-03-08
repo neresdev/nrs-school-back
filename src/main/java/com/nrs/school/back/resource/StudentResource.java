@@ -54,7 +54,11 @@ public class StudentResource {
 
     @PutMapping("/update/student")
     public ResponseEntity<StudentDTO> update(@RequestBody StudentDTO studentDTO){
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path(REGISTRATION)
+        var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
+                ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
+                : ServletUriComponentsBuilder.fromCurrentRequest();
+
+        return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION)
         .buildAndExpand(service.update(studentDTO).getStudentId()).toUri()).build();
         
     }

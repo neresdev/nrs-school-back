@@ -23,6 +23,10 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private final StudentResource studentResource;
 
+    // todo delete me
+    private final StudentRepository studentRepository;
+    // todo delete me
+
     private ResponseEntity<List<StudentDTO>> studentsReturned;
 
     private ResponseEntity<StudentDTO> studentReturned;
@@ -35,8 +39,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private DataIntegrityViolationException dataIntegrityViolationExistingRegistrationException;
 
+    private ResponseEntity<StudentDTO> studentUpdated;
+
     public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
         this.studentResource = studentResource;
+        this.studentRepository = studentRepository;
     }
 
     @When("find student by registration {string}")
@@ -63,8 +70,20 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         }
     }
 
+    @When("update student")
+    public void updateStudent(List<Map<String, String>> expectedData) {
+        var studentToUpdate = convertFeatureDataToStudentDto(expectedData.get(0));
+        this.studentUpdated = studentResource.update(studentToUpdate);
+    }
+
+    @When("delete student by registration {string}")
+    public void deleteStudentByRegistration(String registration) {
+        int a = 0;
+        this.studentResource.delete(registration);
+    }
+
     @And("create a student with existing registration")
-    public void createAStudentWithExistingRegistration(List<Map<String, String>> student){
+    public void createAStudentWithExistingRegistration(List<Map<String, String>> student) {
         try {
             this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
         } catch (DataIntegrityViolationException e){
@@ -73,9 +92,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     }
 
-
-    @Then("return all students in database")
-    public void returnAllStudentsInDatabase(List<Map<String, String>> expectedData) {
+    @Then("return all students")
+    public void returnAllStudents(List<Map<String, String>> expectedData) {
         final var expectedStudents = expectedData.stream().map(this::convertFeatureDataToStudentDto).toList();
 
         assertTrue(studentsReturned.getStatusCode().is2xxSuccessful());
@@ -90,9 +108,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     }
 
-
-    @Then("return a student in database")
-    public void returnAStudentInDatabase(List<Map<String, String>> expectedData) {
+    @Then("return a student")
+    public void returnAStudent(List<Map<String, String>> expectedData) {
         final var expectedStudent = expectedData.stream().map(this::convertFeatureDataToStudentDto).toList().get(0);
         final var actualStudent = studentReturned.getBody();
 
@@ -111,19 +128,41 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         assertEquals(expectedLocation, Objects.requireNonNull(this.studentCreated.getHeaders().get("Location")).get(0));
     }
 
-    @Then("throw an data integraty violation exception")
-    public void throwAnDataIntegratyViolationException(){
+    @Then("throw an data integrity violation exception")
+    public void throwAnDataIntegratyViolationException() {
         var expectedMessage = "JSON invalid: Email cannot be blank or null; ";
         assertEquals(expectedMessage, dataIntegrityViolationInvalidEmailException.getMessage());
     }
 
     @Then("return an student already exists exception")
-    public void throwAnDataIntegrityViolationExistingRegistrationException(){
+    public void throwAnDataIntegrityViolationExistingRegistrationException() {
         var expectedMessage = "Student with registration m423af2 already exists";
         assertEquals(expectedMessage, dataIntegrityViolationExistingRegistrationException.getMessage());
     }
 
-    private void assertFields(StudentDTO expected, StudentDTO actual) {
+    @Then("return a url form the student with fields updated")
+    public void thenReturnAUrlFromStudentUpdated(List<Map<String, String>> expectedData) {
+        var expectedStudent = this.convertFeatureDataToStudentDto(expectedData.get(0));
+        final var expectedLocation = "http://localhost:8080/api/v1/get/student/%s".formatted(expectedStudent.getStudentId());
+        var student = this.studentResource.findStudentByRegistration(expectedStudent.getRegistration());
+
+        assertEquals(expectedLocation, Objects.requireNonNull(this.studentUpdated.getHeaders().get("Location")).get(0));
+        assertFields(expectedStudent, Objects.requireNonNull(student.getBody()));
+
+    }
+
+    @Then("there must be no students with registration {string}")
+    public void noOneStudentWithRegistration(String registration) {
+        try {
+           studentResource.findStudentByRegistration(registration);
+        } catch (ObjectNotFoundException e){
+            var expectedMessage = NOT_FOUND_MESSAGE.formatted(registration);
+            assertEquals(expectedMessage, e.getMessage());
+        }
+
+    }
+
+    private static void assertFields(StudentDTO expected, StudentDTO actual) {
         assertEquals(expected.getStudentId(), actual.getStudentId());
         assertEquals(expected.getStudentName(), actual.getStudentName());
         assertEquals(expected.getStudentEmail(), actual.getStudentEmail());
