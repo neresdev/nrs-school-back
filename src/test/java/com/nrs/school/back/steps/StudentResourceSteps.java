@@ -5,7 +5,6 @@ import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.resource.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.repository.StudentRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -23,9 +22,6 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private final StudentResource studentResource;
 
-    // todo delete me
-    private final StudentRepository studentRepository;
-    // todo delete me
 
     private ResponseEntity<List<StudentDTO>> studentsReturned;
 
@@ -41,9 +37,8 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<StudentDTO> studentUpdated;
 
-    public StudentResourceSteps(StudentResource studentResource, StudentRepository studentRepository) {
+    public StudentResourceSteps(StudentResource studentResource) {
         this.studentResource = studentResource;
-        this.studentRepository = studentRepository;
     }
 
     @When("find student by registration {string}")
