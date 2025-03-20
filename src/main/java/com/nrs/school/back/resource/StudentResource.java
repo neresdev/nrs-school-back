@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,8 @@ public class StudentResource {
 
     @GetMapping("/all/students")
     public ResponseEntity<List<StudentDTO>> findAll(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         return ResponseEntity.ok().body(service.findAll());
     }
 
