@@ -35,14 +35,14 @@ public class StudentResource {
         this.env = env;
     }
 
-    @GetMapping("/all/students")
+    @GetMapping("/students")
     public ResponseEntity<List<StudentDTO>> findAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return ResponseEntity.ok().body(service.findAll());
     }
 
-    @GetMapping("/get/student" + REGISTRATION)
+    @GetMapping("/student" + REGISTRATION)
     public ResponseEntity<StudentDTO> findStudentByRegistration(@PathVariable String registration){
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }

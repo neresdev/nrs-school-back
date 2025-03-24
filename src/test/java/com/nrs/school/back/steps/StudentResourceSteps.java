@@ -2,7 +2,7 @@ package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.resource.StudentResource;
+import com.nrs.school.back.resource.StudentResourceOutDated;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import io.cucumber.java.en.And;
@@ -20,7 +20,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
 
-    private final StudentResource studentResource;
+    private final StudentResourceOutDated studentResourceOutDated;
 
 
     private ResponseEntity<List<StudentDTO>> studentsReturned;
@@ -37,14 +37,14 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<StudentDTO> studentUpdated;
 
-    public StudentResourceSteps(StudentResource studentResource) {
-        this.studentResource = studentResource;
+    public StudentResourceSteps(StudentResourceOutDated studentResourceOutDated) {
+        this.studentResourceOutDated = studentResourceOutDated;
     }
 
     @When("find student by registration {string}")
     public void findStudentByRegistration(String registration) {
         try {
-            this.studentReturned = studentResource.findStudentByRegistration(registration);
+            this.studentReturned = studentResourceOutDated.findStudentByRegistration(registration);
         } catch (ObjectNotFoundException e){
             this.objectNotFound = e;
         }
@@ -53,13 +53,13 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     @When("find all student")
     public void findAllStudent() {
-        this.studentsReturned = studentResource.findAll();
+        this.studentsReturned = studentResourceOutDated.findAll();
     }
 
     @When("create a student")
     public void createStudent(List<Map<String, String>> student) {
         try {
-            this.studentCreated = this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
+            this.studentCreated = this.studentResourceOutDated.create(convertFeatureDataToStudentDto(student.get(0)));
         } catch (DataIntegrityViolationException e) {
             this.dataIntegrityViolationInvalidEmailException = e;
         }
@@ -68,19 +68,19 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     @When("update student")
     public void updateStudent(List<Map<String, String>> expectedData) {
         var studentToUpdate = convertFeatureDataToStudentDto(expectedData.get(0));
-        this.studentUpdated = studentResource.update(studentToUpdate);
+        this.studentUpdated = studentResourceOutDated.update(studentToUpdate);
     }
 
     @When("delete student by registration {string}")
     public void deleteStudentByRegistration(String registration) {
         int a = 0;
-        this.studentResource.delete(registration);
+        this.studentResourceOutDated.delete(registration);
     }
 
     @And("create a student with existing registration")
     public void createAStudentWithExistingRegistration(List<Map<String, String>> student) {
         try {
-            this.studentResource.create(convertFeatureDataToStudentDto(student.get(0)));
+            this.studentResourceOutDated.create(convertFeatureDataToStudentDto(student.get(0)));
         } catch (DataIntegrityViolationException e){
             this.dataIntegrityViolationExistingRegistrationException = e;
         }
@@ -139,7 +139,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     public void thenReturnAUrlFromStudentUpdated(List<Map<String, String>> expectedData) {
         var expectedStudent = this.convertFeatureDataToStudentDto(expectedData.get(0));
         final var expectedLocation = "http://localhost:8080/api/v1/get/student/%s".formatted(expectedStudent.getStudentId());
-        var student = this.studentResource.findStudentByRegistration(expectedStudent.getRegistration());
+        var student = this.studentResourceOutDated.findStudentByRegistration(expectedStudent.getRegistration());
 
         assertEquals(expectedLocation, Objects.requireNonNull(this.studentUpdated.getHeaders().get("Location")).get(0));
         assertFields(expectedStudent, Objects.requireNonNull(student.getBody()));
@@ -149,7 +149,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
     @Then("there must be no students with registration {string}")
     public void noOneStudentWithRegistration(String registration) {
         try {
-           studentResource.findStudentByRegistration(registration);
+           studentResourceOutDated.findStudentByRegistration(registration);
         } catch (ObjectNotFoundException e){
             var expectedMessage = NOT_FOUND_MESSAGE.formatted(registration);
             assertEquals(expectedMessage, e.getMessage());
