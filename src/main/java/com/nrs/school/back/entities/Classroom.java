@@ -106,6 +106,30 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public int getShift() {
+        return shift;
+    }
+
+    public void setShift(int shift) {
+        this.shift = shift;
+    }
+
+    public int getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber(int classNumber) {
+        this.classNumber = classNumber;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
