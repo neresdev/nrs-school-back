@@ -20,26 +20,17 @@ public class ApplicationConfiguration {
         this.userRepository = userRepository;
     }
 
-    /**
-     * defines how to retrieve the user using the UserRepository that is injected
-     */
     @Bean
     UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    /**
-     * creates an instance of the BCryptPasswordEncoder() used to encode the plain user password
-     */
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * sets the new strategy to perform the authentication
-     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
