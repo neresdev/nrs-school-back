@@ -1,9 +1,7 @@
 package com.nrs.school.back.service;
 
 import com.nrs.school.back.entities.dto.ClassroomDTO;
-import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.repository.ClassroomRepository;
-import com.nrs.school.back.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
