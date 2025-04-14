@@ -24,7 +24,7 @@ public class Classroom {
      * Ex: 5°A
      */
     @Column(name = "CLASS", nullable = false)
-    private String className;
+    private String classroomName;
 
     /**
      * Maximum students quantity
@@ -72,9 +72,9 @@ public class Classroom {
     public Classroom() {
     }
 
-    public Classroom(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
+    public Classroom(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
         this.id = id;
-        this.className = className;
+        this.classroomName = classroomName;
         this.capacity = capacity;
         this.teacher = teacher;
         this.shift = shift;
@@ -90,12 +90,12 @@ public class Classroom {
         this.id = id;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
     public int getCapacity() {

@@ -1,13 +1,7 @@
 package com.nrs.school.back.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.mapstruct.BeforeMapping;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,7 +10,7 @@ public class ClassroomDTO {
     @JsonIgnore
     private Long id;
 
-    private String className;
+    private String classroomName;
 
     private int capacity;
 
@@ -38,9 +32,9 @@ public class ClassroomDTO {
     public ClassroomDTO() {
     }
 
-    public ClassroomDTO(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ClassroomDTO(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.className = className;
+        this.classroomName = classroomName;
         this.capacity = capacity;
         this.teacher = teacher;
         this.shift = shift;
@@ -57,12 +51,12 @@ public class ClassroomDTO {
         this.id = id;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
     public int getCapacity() {

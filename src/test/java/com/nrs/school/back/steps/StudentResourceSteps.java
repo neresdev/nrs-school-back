@@ -160,7 +160,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
         assertEquals(expected.getStudentId(), actual.getStudentId());
         assertEquals(expected.getStudentName(), actual.getStudentName());
         assertEquals(expected.getStudentEmail(), actual.getStudentEmail());
-        assertEquals(expected.getClassRoomId(), actual.getClassRoomId());
+        assertEquals(expected.getClassroomName(), actual.getClassroomName());
         assertEquals(expected.getRegistration(), actual.getRegistration());
     }
 
@@ -169,7 +169,7 @@ public class StudentResourceSteps extends SpringIntegrationTest {
                 Long.valueOf(data.get("studentId")),
                 data.get("studentName"),
                 data.get("studentEmail"),
-                Long.valueOf(data.get("classRoomId")),
+                data.get("classroomName"),
                 data.get("registration")
         );
     }

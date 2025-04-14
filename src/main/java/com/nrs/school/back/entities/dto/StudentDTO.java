@@ -18,7 +18,8 @@ public class StudentDTO {
     @NotBlank(message = "Email cannot be blank or null")
     private String studentEmail;
 
-    private Long classRoomId;
+    @Length(max = 3, min = 3, message = "Classroom must have 3 characters")
+    private String classroomName;
 
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
@@ -30,21 +31,22 @@ public class StudentDTO {
 
     public StudentDTO(Long studentId,
             @NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-            @NotBlank(message = "Email cannot be blank or null") String studentEmail, Long classRoomId,
+            @NotBlank(message = "Email cannot be blank or null") String studentEmail,
+            @Length(min = 3, max = 3, message = "Classroom must have 3 characters")    String classroomName,
             @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
-        this.classRoomId = classRoomId;
+        this.classroomName = classroomName;
         this.registration = registration;
     }
 
     public StudentDTO(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-            @NotBlank(message = "Email cannot be blank or null") String studentEmail, Long classRoomId,
+            @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
             @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
-        this.classRoomId = classRoomId;
+        this.classroomName = classroomName;
         this.registration = registration;
     }
 
@@ -72,12 +74,12 @@ public class StudentDTO {
         this.studentEmail = studentEmail;
     }
 
-    public Long getClassRoomId() {
-        return classRoomId;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassRoomId(Long classRoomId) {
-        this.classRoomId = classRoomId;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
     public String getRegistration() {
