@@ -27,4 +27,8 @@ public class ClassroomService {
             return classroomDTO;
         }).toList();
     }
+
+    public boolean existsClassroom(String className) {
+        return repository.existsByClassroomName(className);
+    }
 }
