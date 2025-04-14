@@ -24,15 +24,17 @@ public class StudentService{
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
     private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
-    private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
+    private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exist";
+    private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with name %s does not exist";
 
     private final StudentRepository repository;
-
+    private final ClassroomService classroomService;
     private final ModelMapper mapper;
 
-    public StudentService(StudentRepository repository, ModelMapper mapper) {
+    public StudentService(StudentRepository repository, ModelMapper mapper, ClassroomService classroomService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.classroomService = classroomService;
     }
 
     public List<StudentDTO> findAll() {
@@ -43,14 +45,17 @@ public class StudentService{
         return mapper.map(repository.findByRegistration(registration).orElseThrow(() -> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(registration))), StudentDTO.class);
     }
 
-    public StudentDTO create(StudentDTO studentsDTO) {
-        String messageValidator = entityValidator(studentsDTO);
+    public StudentDTO create(StudentDTO studentDTO) {
+        String messageValidator = entityValidator(studentDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
-        Optional<Student> student = repository.findByRegistration(studentsDTO.getRegistration());
-        if(student.isPresent()) throw new DataIntegrityViolationException(String.format(EXISTING_STUDENT_MESSAGE, student.get().getRegistration()));
-        
-        return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
+        Optional<Student> student = repository.findByRegistration(studentDTO.getRegistration());
+
+        if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
+
+        if(!classroomService.existsClassroom(studentDTO.getClassroomName())) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
+
+        return mapper.map(repository.save(mapper.map(studentDTO, Student.class)), StudentDTO.class);
     }
 
     public StudentDTO update(StudentDTO studentsDTO) {
