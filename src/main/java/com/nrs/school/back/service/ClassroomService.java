@@ -1,11 +1,13 @@
 package com.nrs.school.back.service;
 
+import com.nrs.school.back.entities.Classroom;
 import com.nrs.school.back.entities.dto.ClassroomDTO;
 import com.nrs.school.back.repository.ClassroomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -28,7 +30,7 @@ public class ClassroomService {
         }).toList();
     }
 
-    public boolean existsClassroom(String className) {
-        return repository.existsByClassroomName(className);
+    public Optional<Classroom> getClassroomByClassroomName(String classroomName){
+        return repository.findByClassroomName(classroomName);
     }
 }
