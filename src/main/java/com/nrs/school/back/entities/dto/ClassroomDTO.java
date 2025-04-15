@@ -20,7 +20,7 @@ public class ClassroomDTO {
 
     private int classNumber;
 
-    private UUID requestId;
+    private UUID requestId; // mudar esse campo para deixar ele um nivel acima, não para cada sala retornada
 
     @JsonIgnore
     private LocalDateTime createdAt;
