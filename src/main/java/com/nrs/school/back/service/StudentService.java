@@ -53,9 +53,13 @@ public class StudentService{
 
         if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
 
-        if(!classroomService.existsClassroom(studentDTO.getClassroomName())) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
+        var studentClassroom = classroomService.getClassroomByClassroomName(studentDTO.getClassroomName());
+        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
 
-        return mapper.map(repository.save(mapper.map(studentDTO, Student.class)), StudentDTO.class);
+        var studentEntity = mapper.map(studentDTO, Student.class);
+        studentEntity.setClassroomId(studentClassroom.get().getId());
+
+        return mapper.map(repository.save(studentEntity), StudentDTO.class);
     }
 
     public StudentDTO update(StudentDTO studentsDTO) {
