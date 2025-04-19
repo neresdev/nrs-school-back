@@ -24,7 +24,7 @@ public class StudentService{
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
     private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
-    private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exist";
+    private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
     private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with name %s does not exist";
 
     private final StudentRepository repository;
@@ -38,11 +38,23 @@ public class StudentService{
     }
 
     public List<StudentDTO> findAll() {
-        return repository.findAll().stream().map(u -> mapper.map(u, StudentDTO.class)).collect(Collectors.toList());
+        return repository.findAll().stream().map(s -> {
+            var classroomName = classroomService.findById(s.getClassroomId()).getClassroomName();
+            var student = mapper.map(s, StudentDTO.class);
+            student.setClassroomName(classroomName);
+            return student;
+        }).collect(Collectors.toList());
     }
 
     public StudentDTO findByRegistration(String registration) {
-        return mapper.map(repository.findByRegistration(registration).orElseThrow(() -> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(registration))), StudentDTO.class);
+        var student = repository.findByRegistration(registration).orElseThrow(() -> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(registration)));
+
+        var classroomName = classroomService.findById(student.getClassroomId()).getClassroomName();
+
+        var studentDTO = mapper.map(student, StudentDTO.class);
+        studentDTO.setClassroomName(classroomName);
+
+        return studentDTO;
     }
 
     public StudentDTO create(StudentDTO studentDTO) {
@@ -53,7 +65,7 @@ public class StudentService{
 
         if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
 
-        var studentClassroom = classroomService.getClassroomByClassroomName(studentDTO.getClassroomName());
+        var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
         if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
 
         var studentEntity = mapper.map(studentDTO, Student.class);
@@ -62,13 +74,19 @@ public class StudentService{
         return mapper.map(repository.save(studentEntity), StudentDTO.class);
     }
 
-    public StudentDTO update(StudentDTO studentsDTO) {
-        String messageValidator = entityValidator(studentsDTO);
+    public StudentDTO update(StudentDTO studentDTO) {
+        String messageValidator = entityValidator(studentDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
-        studentsDTO.setStudentId(findByRegistration(studentsDTO.getRegistration()).getStudentId());
-        
-        return mapper.map(repository.save(mapper.map(studentsDTO, Student.class)), StudentDTO.class);
+        studentDTO.setStudentId(findByRegistration(studentDTO.getRegistration()).getStudentId());
+
+        var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
+        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
+
+        var studentEntity = mapper.map(studentDTO, Student.class);
+        studentEntity.setClassroomId(studentClassroom.get().getId());
+
+        return mapper.map(repository.save(studentEntity), StudentDTO.class);
     }
 
     public void delete(String registration) {
