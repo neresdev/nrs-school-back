@@ -24,26 +24,20 @@ public class StudentDTO {
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
 
-    
-
     public StudentDTO() {
     }
 
-    public StudentDTO(Long studentId,
-            @NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-            @NotBlank(message = "Email cannot be blank or null") String studentEmail,
-            @Length(min = 3, max = 3, message = "Classroom must have 3 characters")    String classroomName,
-            @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+    public StudentDTO(Long studentId, String studentName, String studentEmail, String classroomName, String registration) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
-        this.classroomName = classroomName;
         this.registration = registration;
+        this.classroomName = classroomName;
     }
 
     public StudentDTO(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-            @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
-            @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+                      @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
+                      @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.classroomName = classroomName;
