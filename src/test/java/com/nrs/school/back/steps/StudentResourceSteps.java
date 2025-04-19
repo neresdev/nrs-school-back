@@ -94,11 +94,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
         Objects.requireNonNull(studentsReturned.getBody())
                 .forEach(student ->
-                        assertFields(student, expectedStudents
-                                                .stream()
-                                                .filter(s -> Objects.equals(s.getStudentId(), student.getStudentId()))
-                                                    .findFirst()
-                                                    .orElseThrow(()-> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(student.getRegistration())))));
+                        assertFields(expectedStudents
+                                        .stream()
+                                        .filter(s -> Objects.equals(s.getStudentId(), student.getStudentId())).findFirst()
+                                        .orElseThrow(()-> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(student.getRegistration()))),
+                                student));
 
     }
 
