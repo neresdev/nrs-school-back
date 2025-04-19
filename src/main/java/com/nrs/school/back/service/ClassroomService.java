@@ -3,6 +3,7 @@ package com.nrs.school.back.service;
 import com.nrs.school.back.entities.Classroom;
 import com.nrs.school.back.entities.dto.ClassroomDTO;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
+import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.ClassroomRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -21,6 +22,7 @@ public class ClassroomService {
 
     private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
     private static final String EXISTING_CLASSROOM_MESSAGE = "Classroom with name %s already exist";
+    private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with id %d not found";
 
     private final ClassroomRepository repository;
 
@@ -43,13 +45,17 @@ public class ClassroomService {
         String messageValidator = entityValidator(classroomDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
 
-        Optional<Classroom> classroom = getClassroomByClassroomName(classroomDTO.getClassroomName());
+        Optional<Classroom> classroom = findClassroomByClassroomName(classroomDTO.getClassroomName());
 
         if(classroom.isPresent()) throw new DataIntegrityViolationException(EXISTING_CLASSROOM_MESSAGE.formatted(classroom.get().getClassroomName()));
 
         var classroomEntity = mapper.map(classroomDTO, Classroom.class);
 
         return mapper.map(repository.save(classroomEntity), ClassroomDTO.class);
+    }
+
+    public Classroom findById(Long classroomId) {
+        return repository.findById(classroomId).orElseThrow(() -> new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomId)));
     }
 
     private String entityValidator(ClassroomDTO classroomDTO){
@@ -64,7 +70,7 @@ public class ClassroomService {
 
     }
 
-    public Optional<Classroom> getClassroomByClassroomName(String classroomName){
+    public Optional<Classroom> findClassroomByClassroomName(String classroomName){
         return repository.findByClassroomName(classroomName);
     }
 }
