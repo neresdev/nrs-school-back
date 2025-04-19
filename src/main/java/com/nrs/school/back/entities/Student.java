@@ -20,7 +20,7 @@ public class Student {
      * Table identifier
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_STUDENT_IDT")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SQ_STUDENT_IDT")
     @Column(name = "IDT_STUDENT", nullable = false, unique = true)
     private Long studentId;
 
@@ -56,15 +56,7 @@ public class Student {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
     public Student() {
-    }
-
-    public Student(String studentName, String studentEmail, Long classroomId, String registration) {
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.classroomId = classroomId;
-        this.registration = registration;
     }
 
     public Student(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
@@ -131,5 +123,5 @@ public class Student {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
 }
