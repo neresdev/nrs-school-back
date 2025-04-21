@@ -40,7 +40,7 @@ public class StudentResource {
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
 
-    @PostMapping("/create/student")
+    @PostMapping("/student/create")
     public ResponseEntity<StudentDTO> create(@RequestBody StudentDTO studentDTO){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
                 ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
