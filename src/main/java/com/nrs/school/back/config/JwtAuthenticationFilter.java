@@ -1,5 +1,6 @@
 package com.nrs.school.back.config;
 
+import com.nrs.school.back.exceptions.MissingAuthorizationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -55,16 +56,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-
-        var endpoints = new ArrayList<String>();
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
+            final String authHeader = request.getHeader("Authorization");
+
+            if (!isJwtPresent(request)) {
+                throw new MissingAuthorizationException("Authorization not found");
+            }
+
+            var endpoints = new ArrayList<String>();
             for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMapping.getHandlerMethods().entrySet()) {
                 RequestMappingInfo requestMappingInfo = entry.getKey();
                 assert requestMappingInfo.getPathPatternsCondition() != null;
@@ -99,5 +98,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception exception) {
             customExceptionResolver.resolveException(request, response, exception, exception);
         }
+    }
+
+    private boolean isJwtPresent(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+        
+        return !((authHeader == null || !authHeader.startsWith("Bearer ")) && !request.getRequestURI().startsWith("/auth"));
     }
 }
