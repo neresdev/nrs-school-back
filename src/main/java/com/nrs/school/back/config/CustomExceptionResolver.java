@@ -1,6 +1,7 @@
 package com.nrs.school.back.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrs.school.back.exceptions.MissingAuthorizationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -71,6 +72,10 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
         } else if (exception instanceof ExpiredJwtException) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseObject.put("error", "The JWT token has expireda");
+            responseObject.put("status", HttpServletResponse.SC_FORBIDDEN);
+        } else if (exception instanceof MissingAuthorizationException) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            responseObject.put("error", ((MissingAuthorizationException) exception).getMessage());
             responseObject.put("status", HttpServletResponse.SC_FORBIDDEN);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
