@@ -59,8 +59,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String authHeader = request.getHeader("Authorization");
 
-            if (!isJwtPresent(request)) {
-                throw new MissingAuthorizationException("Authorization not found");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                if(!request.getRequestURI().startsWith("/auth")) {
+                    throw new MissingAuthorizationException("Authorization not found");
+                }
+                filterChain.doFilter(request, response);
+                return;
             }
 
             var endpoints = new ArrayList<String>();
@@ -100,9 +104,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean isJwtPresent(HttpServletRequest request) {
-        final String authHeader = request.getHeader("Authorization");
+    private boolean allowEmptyJwt(HttpServletRequest request) {
         
-        return !((authHeader == null || !authHeader.startsWith("Bearer ")) && !request.getRequestURI().startsWith("/auth"));
+        return request.getRequestURI().startsWith("/auth");
     }
 }
