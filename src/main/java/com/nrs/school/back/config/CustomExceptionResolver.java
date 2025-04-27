@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Component
 public class CustomExceptionResolver implements HandlerExceptionResolver {
+    public static final Logger LOGGER = Logger.getLogger(CustomExceptionResolver.class.getName());
+
     private static final String DEFAULT_ERROR_MESSAGE = "Unauthorized";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -53,6 +56,9 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
     }
 
     private void handleException(Object exception, HttpServletResponse response, Map<String, Object> responseObject) {
+        var ex = (Exception) exception;
+        LOGGER.info("Request error: " + ex.getMessage());
+
         if (exception instanceof ObjectNotFoundException) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             responseObject.put("error", "Path not found");
