@@ -100,12 +100,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
-            customExceptionResolver.resolveException(request, response, exception, exception);
+            customExceptionResolver.resolveException(request, response, null, exception);
         }
-    }
-
-    private boolean allowEmptyJwt(HttpServletRequest request) {
-        
-        return request.getRequestURI().startsWith("/auth");
     }
 }
