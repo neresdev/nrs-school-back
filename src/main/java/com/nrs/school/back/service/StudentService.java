@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.nrs.school.back.enm.StudentError;
+import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +27,7 @@ public class StudentService{
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
     private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
     private static final String EXISTING_STUDENT_MESSAGE = "Student with registration %s already exists";
-    private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with name %s does not exist";
+    private static final String STUDENT_CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with name %s does not exist";
 
     private final StudentRepository repository;
     private final ClassroomService classroomService;
@@ -65,11 +67,13 @@ public class StudentService{
 
         if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
 
-        var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
-        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
-
         var studentEntity = mapper.map(studentDTO, Student.class);
-        studentEntity.setClassroomId(studentClassroom.get().getId());
+
+        if(studentDTO.getClassroomName() != null) {
+            var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
+            if(studentClassroom.isEmpty()) throw new StudentClassroomNotFoundException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()), StudentError.STUDENT_CLASSROOM_NOT_FOUND);
+            studentEntity.setClassroomId(studentClassroom.get().getId());
+        }
 
         return mapper.map(repository.save(studentEntity), StudentDTO.class);
     }
@@ -81,7 +85,7 @@ public class StudentService{
         studentDTO.setStudentId(findByRegistration(studentDTO.getRegistration()).getStudentId());
 
         var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
-        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
+        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
 
         var studentEntity = mapper.map(studentDTO, Student.class);
         studentEntity.setClassroomId(studentClassroom.get().getId());
