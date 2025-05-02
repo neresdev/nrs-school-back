@@ -3,7 +3,6 @@ package com.nrs.school.back.entities.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class ClassroomDTO {
 
@@ -20,7 +19,7 @@ public class ClassroomDTO {
 
     private int classNumber;
 
-    private UUID requestId; // mudar esse campo para deixar ele um nivel acima, não para cada sala retornada
+    private String classroomId;
 
     @JsonIgnore
     private LocalDateTime createdAt;
@@ -107,11 +106,11 @@ public class ClassroomDTO {
         this.updatedAt = updatedAt;
     }
 
-    public UUID getRequestId() {
-        return requestId;
+    public String getClassroomId() {
+        return classroomId;
     }
 
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
+    public void setClassroomId(String classroomId) {
+        this.classroomId = classroomId;
     }
 }
