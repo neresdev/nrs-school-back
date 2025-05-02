@@ -1,8 +1,6 @@
 package com.nrs.school.back.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.nrs.school.back.enm.StudentError;
@@ -57,6 +55,20 @@ public class StudentService{
         studentDTO.setClassroomName(classroomName);
 
         return studentDTO;
+    }
+
+    public List<StudentDTO> findByClassroomId(String classroomId) {
+        var classroom = classroomService.findByClassroomId(classroomId);
+        if(classroom.isEmpty()) {
+            return Collections.emptyList();
+        }
+        var students = repository.findByClassroomId(classroom.get().getId());
+
+        return students.stream().map(s -> {
+            var student = mapper.map(s, StudentDTO.class);
+            student.setClassroomName(classroom.get().getClassroomName());
+            return mapper.map(student, StudentDTO.class);
+        }).toList();
     }
 
     public StudentDTO create(StudentDTO studentDTO) {
