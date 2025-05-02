@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -65,17 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
                 filterChain.doFilter(request, response);
                 return;
-            }
-
-            var endpoints = new ArrayList<String>();
-            for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMapping.getHandlerMethods().entrySet()) {
-                RequestMappingInfo requestMappingInfo = entry.getKey();
-                assert requestMappingInfo.getPathPatternsCondition() != null;
-                endpoints.add(requestMappingInfo.getPathPatternsCondition().getPatterns().iterator().next().toString());
-            }
-
-            if (!endpoints.contains(request.getRequestURI())) {
-                throw new ObjectNotFoundException(ENDPOINT_NOT_FOUND_MESSAGE.formatted(request.getRequestURI()));
             }
 
             final String jwt = authHeader.substring(7);
