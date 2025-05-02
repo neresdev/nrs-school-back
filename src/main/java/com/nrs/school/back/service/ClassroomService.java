@@ -34,11 +34,7 @@ public class ClassroomService {
     }
 
     public List<ClassroomDTO> findAll() {
-        return repository.findAll().stream().map(c -> {
-            final var classroomDTO = mapper.map(c, ClassroomDTO.class);
-            classroomDTO.setRequestId(UUID.randomUUID());
-            return classroomDTO;
-        }).toList();
+        return repository.findAll().stream().map(c -> mapper.map(c, ClassroomDTO.class)).toList();
     }
 
     public ClassroomDTO create(ClassroomDTO classroomDTO) {
@@ -68,6 +64,10 @@ public class ClassroomService {
         }
         return message;
 
+    }
+
+    public Optional<Classroom> findByClassroomId(String classroomId) {
+        return repository.findByClassroomId(classroomId);
     }
 
     public Optional<Classroom> findClassroomByClassroomName(String classroomName){
