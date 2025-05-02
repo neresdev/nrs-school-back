@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
 
     Optional<Classroom> findByClassroomName(String classroomName);
+    Optional<Classroom> findByClassroomId(String classroomId);
 
 }
