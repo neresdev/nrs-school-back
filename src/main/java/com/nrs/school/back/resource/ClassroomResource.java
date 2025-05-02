@@ -2,6 +2,7 @@ package com.nrs.school.back.resource;
 
 
 import com.nrs.school.back.entities.dto.ClassroomDTO;
+import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.service.ClassroomService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1")
 public class ClassroomResource {
 
-    private static final String CLASSROOM_ID = "/{registration}";
+    private static final String CLASSROOM_ID = "/{classroomId}";
 
     private final ClassroomService classroomService;
 
