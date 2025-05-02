@@ -5,6 +5,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -52,6 +53,9 @@ public class Classroom {
     @Column(name = "CLASS_NUMBER", nullable = false)
     private int classNumber;
 
+    @Column(name = "CLASSROOM_UUID", nullable = false)
+    private String classroomId;
+
     /**
      * Creation date for record
      */
@@ -79,6 +83,7 @@ public class Classroom {
         this.teacher = teacher;
         this.shift = shift;
         this.classNumber = classNumber;
+        this.classroomId = UUID.randomUUID().toString();
         this.createdAt = createdAt;
     }
 
@@ -128,6 +133,14 @@ public class Classroom {
 
     public void setClassNumber(int classNumber) {
         this.classNumber = classNumber;
+    }
+
+    public String getClassroomId() {
+        return classroomId;
+    }
+
+    public void setClassroomId(String classroomId) {
+        this.classroomId = classroomId;
     }
 
     public LocalDateTime getCreatedAt() {
