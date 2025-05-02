@@ -19,6 +19,8 @@ public class StudentResource {
 
     private static final String REGISTRATION = "/{registration}";
 
+    private static final String CLASSROOM_ID = "/{classroomId}";
+
     private final StudentService service;
 
     private final Environment env;
@@ -33,6 +35,11 @@ public class StudentResource {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return ResponseEntity.ok().body(service.findAll());
+    }
+
+    @GetMapping("/students" + CLASSROOM_ID)
+    public ResponseEntity<List<StudentDTO>> findAllByClassroomId(@PathVariable String classroomId) {
+        return ResponseEntity.ok().body(service.findByClassroomId(classroomId));
     }
 
     @GetMapping("/student" + REGISTRATION)
