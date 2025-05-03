@@ -2,7 +2,6 @@ package com.nrs.school.back.resource;
 
 
 import com.nrs.school.back.entities.dto.ClassroomDTO;
-import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.service.ClassroomService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +29,11 @@ public class ClassroomResource {
     @GetMapping("/classrooms")
     public ResponseEntity<List<ClassroomDTO>> findAll() {
         return ResponseEntity.ok(classroomService.findAll());
+    }
+
+    @GetMapping("/classrooms" + CLASSROOM_ID)
+    public ResponseEntity<ClassroomDTO> findByID(@PathVariable String classroomId) {
+        return ResponseEntity.ok(classroomService.findByClassroomId(classroomId));
     }
 
     @PostMapping("/create/classroom")
