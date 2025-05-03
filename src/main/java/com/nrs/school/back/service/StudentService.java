@@ -59,14 +59,11 @@ public class StudentService{
 
     public List<StudentDTO> findByClassroomId(String classroomId) {
         var classroom = classroomService.findByClassroomId(classroomId);
-        if(classroom.isEmpty()) {
-            return Collections.emptyList();
-        }
-        var students = repository.findByClassroomId(classroom.get().getId());
+        var students = repository.findByClassroomId(classroom.getId());
 
         return students.stream().map(s -> {
             var student = mapper.map(s, StudentDTO.class);
-            student.setClassroomName(classroom.get().getClassroomName());
+            student.setClassroomName(classroom.getClassroomName());
             return mapper.map(student, StudentDTO.class);
         }).toList();
     }
