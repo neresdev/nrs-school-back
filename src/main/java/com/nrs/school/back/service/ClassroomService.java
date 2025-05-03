@@ -22,7 +22,7 @@ public class ClassroomService {
 
     private static final String JSON_INVALID_MESSAGE = "JSON invalid: ";
     private static final String EXISTING_CLASSROOM_MESSAGE = "Classroom with name %s already exist";
-    private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with id %d not found";
+    private static final String CLASSROOM_NOT_FOUND_MESSAGE = "Classroom with id %s not found";
 
     private final ClassroomRepository repository;
 
@@ -66,8 +66,12 @@ public class ClassroomService {
 
     }
 
-    public Optional<Classroom> findByClassroomId(String classroomId) {
-        return repository.findByClassroomId(classroomId);
+    public ClassroomDTO findByClassroomId(String classroomId) {
+        var classroom = repository.findByClassroomId(classroomId);
+        if (classroom.isEmpty()) {
+            throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomId));
+        }
+        return mapper.map(classroom, ClassroomDTO.class);
     }
 
     public Optional<Classroom> findClassroomByClassroomName(String classroomName){
