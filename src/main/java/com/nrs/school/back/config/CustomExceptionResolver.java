@@ -84,7 +84,7 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
             responseObject.put("status", HttpServletResponse.SC_FORBIDDEN);
         } else if (exception instanceof ExpiredJwtException) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            responseObject.put("error", "The JWT token has expireda");
+            responseObject.put("error", "The JWT token has expired");
             responseObject.put("status", HttpServletResponse.SC_FORBIDDEN);
         } else if (exception instanceof MissingAuthorizationException) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
