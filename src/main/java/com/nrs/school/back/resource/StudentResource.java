@@ -56,14 +56,16 @@ public class StudentResource {
         return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION).buildAndExpand(service.create(studentDTO).getStudentId()).toUri()).build();
     }
 
-    @PutMapping("/update/student")
+    @PutMapping("/student/update")
     public ResponseEntity<StudentDTO> update(@RequestBody StudentDTO studentDTO){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
                 ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
                 : ServletUriComponentsBuilder.fromCurrentRequest();
 
+        var studentUpdated = service.update(studentDTO);
+
         return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION)
-        .buildAndExpand(service.update(studentDTO).getStudentId()).toUri()).build();
+        .buildAndExpand(studentUpdated.getStudentId()).toUri()).body(studentUpdated);
         
     }
 
