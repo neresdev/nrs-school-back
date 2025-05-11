@@ -30,13 +30,13 @@ public class LocalConfig {
     @Bean
     public void startDB(){
         clearDB();
-        Student student1 = new Student(null, "Student 1", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        Student student2 = new Student(null, "Student 2", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Student student1 = new Student(null, "Diego Stretz", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Student student2 = new Student(null, "Bruno Silva", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
-        Classroom classroom1 = new Classroom(null, "4°B", 4, "Teacher 1", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        Classroom classroom2 = new Classroom(null, "3°C", 39, "Teacher 2", 2, 35, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        Classroom classroom3 = new Classroom(null, "7°D", 35, "Teacher 3", 3, 48, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        Classroom classroom4 = new Classroom(null, "2°A", 40, "Teacher 4", 2, 97, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Classroom classroom1 = new Classroom(null, "4°B", 4, "Brett Gaines", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Classroom classroom2 = new Classroom(null, "3°C", 39, "Kieran Morrison", 2, 35, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Classroom classroom3 = new Classroom(null, "7°D", 35, "Julio Mayo", 3, 48, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        Classroom classroom4 = new Classroom(null, "2°A", 40, "Hannah Doherty", 2, 97, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         classroomRepository.saveAll(List.of(classroom1, classroom2, classroom3, classroom4));
         
         student1.setClassroomId(classroomRepository.findAll().get(0).getId());
