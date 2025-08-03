@@ -11,3 +11,13 @@ services:
       MYSQL_DATABASE: "NRS_SCHOOL"
       MYSQL_USER: "develop"
       MYSQL_PASSWORD: "DevelopPass"
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+volumes:
+  redis-data:
