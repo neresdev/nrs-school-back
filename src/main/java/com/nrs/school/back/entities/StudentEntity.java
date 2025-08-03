@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "STUDENTS")
-public class Student {
+public class StudentEntity {
 
     /**
      * Table identifier
@@ -56,10 +56,10 @@ public class Student {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Student() {
+    public StudentEntity() {
     }
 
-    public Student(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
+    public StudentEntity(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
