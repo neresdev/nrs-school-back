@@ -1,6 +1,6 @@
 package com.nrs.school.back.service;
 
-import com.nrs.school.back.entities.User;
+import com.nrs.school.back.entities.UserEntity;
 import com.nrs.school.back.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
+    public List<UserEntity> allUsers() {
 
-        userRepository.findAll().forEach(users::add);
-
-        return users;
+        return new ArrayList<>(userRepository.findAll());
     }
 }
