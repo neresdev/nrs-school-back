@@ -19,7 +19,7 @@ public class ClassroomDTO {
 
     private int classNumber;
 
-    private String classroomId;
+    private String classroomReferenceCode;
 
     @JsonIgnore
     private LocalDateTime createdAt;
@@ -106,11 +106,11 @@ public class ClassroomDTO {
         this.updatedAt = updatedAt;
     }
 
-    public String getClassroomId() {
-        return classroomId;
+    public String getClassroomReferenceCode() {
+        return classroomReferenceCode;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setClassroomReferenceCode(String classroomReferenceCode) {
+        this.classroomReferenceCode = classroomReferenceCode;
     }
 }
