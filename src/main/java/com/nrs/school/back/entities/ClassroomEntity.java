@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Setter
 @Table(name = "CLASSROOMS")
-public class Classroom {
+public class ClassroomEntity {
 
     /**
      * Table indentifier
@@ -54,7 +54,7 @@ public class Classroom {
     private int classNumber;
 
     @Column(name = "CLASSROOM_UUID", nullable = false)
-    private String classroomId;
+    private String classroomReferenceCode;
 
     /**
      * Creation date for record
@@ -73,17 +73,17 @@ public class Classroom {
         this.updatedAt = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
-    public Classroom() {
+    public ClassroomEntity() {
     }
 
-    public Classroom(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
+    public ClassroomEntity(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
         this.id = id;
         this.classroomName = classroomName;
         this.capacity = capacity;
         this.teacher = teacher;
         this.shift = shift;
         this.classNumber = classNumber;
-        this.classroomId = UUID.randomUUID().toString();
+        this.classroomReferenceCode = UUID.randomUUID().toString();
         this.createdAt = createdAt;
     }
 
@@ -135,12 +135,12 @@ public class Classroom {
         this.classNumber = classNumber;
     }
 
-    public String getClassroomId() {
-        return classroomId;
+    public String getClassroomReferenceCode() {
+        return classroomReferenceCode;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setClassroomReferenceCode(String classroomReferenceCode) {
+        this.classroomReferenceCode = classroomReferenceCode;
     }
 
     public LocalDateTime getCreatedAt() {
