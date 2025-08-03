@@ -1,6 +1,6 @@
 package com.nrs.school.back.resource;
 
-import com.nrs.school.back.entities.User;
+import com.nrs.school.back.entities.UserEntity;
 import com.nrs.school.back.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,19 +22,19 @@ public class UserResource {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<UserEntity> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User currentUser = (User) authentication.getPrincipal();
+        UserEntity currentUserEntity = (UserEntity) authentication.getPrincipal();
 
-        return ResponseEntity.ok(currentUser);
+        return ResponseEntity.ok(currentUserEntity);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> allUsers() {
-        List<User> users = userService.allUsers();
+    public ResponseEntity<List<UserEntity>> allUsers() {
+        List<UserEntity> userEntities = userService.allUsers();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userEntities);
     }
 
 }
