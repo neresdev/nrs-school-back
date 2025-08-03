@@ -1,6 +1,6 @@
 package com.nrs.school.back.resource;
 
-import com.nrs.school.back.entities.User;
+import com.nrs.school.back.entities.UserEntity;
 import com.nrs.school.back.entities.dto.LoginResponse;
 import com.nrs.school.back.entities.dto.LoginUserDto;
 import com.nrs.school.back.entities.dto.RegisterUserDto;
@@ -26,17 +26,17 @@ public class AuthenticationResource {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<UserEntity> register(@RequestBody RegisterUserDto registerUserDto) {
+        UserEntity registeredUserEntity = authenticationService.signup(registerUserDto);
 
-        return ResponseEntity.ok(registeredUser);
+        return ResponseEntity.ok(registeredUserEntity);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+        UserEntity authenticatedUserEntity = authenticationService.authenticate(loginUserDto);
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
+        String jwtToken = jwtService.generateToken(authenticatedUserEntity);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(jwtToken);
