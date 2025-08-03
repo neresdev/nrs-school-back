@@ -8,7 +8,7 @@ import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.nrs.school.back.entities.Student;
+import com.nrs.school.back.entities.StudentEntity;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
@@ -72,11 +72,11 @@ public class StudentService{
         String messageValidator = entityValidator(studentDTO);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
-        Optional<Student> student = repository.findByRegistration(studentDTO.getRegistration());
+        Optional<StudentEntity> student = repository.findByRegistration(studentDTO.getRegistration());
 
         if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
 
-        var studentEntity = mapper.map(studentDTO, Student.class);
+        var studentEntity = mapper.map(studentDTO, StudentEntity.class);
 
         if(studentDTO.getClassroomName() != null) {
             var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
@@ -96,7 +96,7 @@ public class StudentService{
         var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
         if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
 
-        var studentEntity = mapper.map(studentDTO, Student.class);
+        var studentEntity = mapper.map(studentDTO, StudentEntity.class);
         studentEntity.setClassroomId(studentClassroom.get().getId());
 
         return mapper.map(repository.save(studentEntity), StudentDTO.class);
