@@ -1,15 +1,15 @@
 package com.nrs.school.back.repository;
 
-import com.nrs.school.back.entities.Classroom;
+import com.nrs.school.back.entities.ClassroomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
+public interface ClassroomRepository extends JpaRepository<ClassroomEntity, Long> {
 
-    Optional<Classroom> findByClassroomName(String classroomName);
-    Optional<Classroom> findByClassroomId(String classroomId);
+    Optional<ClassroomEntity> findByClassroomName(String classroomName);
+    Optional<ClassroomEntity> findByClassroomReferenceCode(String classroomId);
 
 }
