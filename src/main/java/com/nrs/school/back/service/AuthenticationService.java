@@ -1,6 +1,6 @@
 package com.nrs.school.back.service;
 
-import com.nrs.school.back.entities.User;
+import com.nrs.school.back.entities.UserEntity;
 import com.nrs.school.back.entities.dto.LoginUserDto;
 import com.nrs.school.back.entities.dto.RegisterUserDto;
 import com.nrs.school.back.repository.UserRepository;
@@ -27,16 +27,16 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User signup(RegisterUserDto input) {
-        User user = new User();
-        user.setFullName(input.getFullName());
-        user.setEmail(input.getEmail());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
+    public UserEntity signup(RegisterUserDto input) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFullName(input.getFullName());
+        userEntity.setEmail(input.getEmail());
+        userEntity.setPassword(passwordEncoder.encode(input.getPassword()));
 
-        return userRepository.save(user);
+        return userRepository.save(userEntity);
     }
 
-    public User authenticate(LoginUserDto input) {
+    public UserEntity authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),
