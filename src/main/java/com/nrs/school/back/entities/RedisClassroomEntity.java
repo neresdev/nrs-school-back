@@ -1,9 +1,17 @@
 package com.nrs.school.back.entities;
 
+import jakarta.persistence.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
+
 @RedisHash(value = "CLASSROOMS", timeToLive = 10)
-public class RedisClassroom {
+public class RedisClassroomEntity implements Serializable {
+
+    @Id
+    private Long id;
+
+
     private String classroomName;
 
     private int capacity;
@@ -14,9 +22,9 @@ public class RedisClassroom {
 
     private int classNumber;
 
-    private String classroomId;
+    private String classroomReferenceCode;
 
-    public RedisClassroom() {
+    public RedisClassroomEntity() {
     }
 
     public String getClassroomName() {
@@ -59,11 +67,11 @@ public class RedisClassroom {
         this.classNumber = classNumber;
     }
 
-    public String getClassroomId() {
-        return classroomId;
+    public String getClassroomReferenceCode() {
+        return classroomReferenceCode;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setClassroomReferenceCode(String classroomReferenceCode) {
+        this.classroomReferenceCode = classroomReferenceCode;
     }
 }
