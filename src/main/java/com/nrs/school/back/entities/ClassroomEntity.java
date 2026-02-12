@@ -24,8 +24,8 @@ public class ClassroomEntity {
      * Classroom name
      * Ex: 5°A
      */
-    @Column(name = "CLASS", nullable = false)
-    private String classroomName;
+    @Column(name = "CLASS_NAME", nullable = false)
+    private String className;
 
     /**
      * Maximum students quantity
@@ -37,7 +37,7 @@ public class ClassroomEntity {
     /**
      * Teacher name for this classroom
      */
-    @Column(name = "TEACHER", nullable = false)
+    @Column(name = "TEACHER_NAME", nullable = false)
     private String teacher;
 
     /**
@@ -52,9 +52,6 @@ public class ClassroomEntity {
      */
     @Column(name = "CLASS_NUMBER", nullable = false)
     private int classNumber;
-
-    @Column(name = "CLASSROOM_UUID", nullable = false)
-    private String classroomReferenceCode;
 
     /**
      * Creation date for record
@@ -76,14 +73,13 @@ public class ClassroomEntity {
     public ClassroomEntity() {
     }
 
-    public ClassroomEntity(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
+    public ClassroomEntity(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
         this.id = id;
-        this.classroomName = classroomName;
+        this.className = className;
         this.capacity = capacity;
         this.teacher = teacher;
         this.shift = shift;
         this.classNumber = classNumber;
-        this.classroomReferenceCode = UUID.randomUUID().toString();
         this.createdAt = createdAt;
     }
 
@@ -95,12 +91,12 @@ public class ClassroomEntity {
         this.id = id;
     }
 
-    public String getClassroomName() {
-        return classroomName;
+    public String getClassName() {
+        return className;
     }
 
-    public void setClassroomName(String classroomName) {
-        this.classroomName = classroomName;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public int getCapacity() {
@@ -133,14 +129,6 @@ public class ClassroomEntity {
 
     public void setClassNumber(int classNumber) {
         this.classNumber = classNumber;
-    }
-
-    public String getClassroomReferenceCode() {
-        return classroomReferenceCode;
-    }
-
-    public void setClassroomReferenceCode(String classroomReferenceCode) {
-        this.classroomReferenceCode = classroomReferenceCode;
     }
 
     public LocalDateTime getCreatedAt() {
