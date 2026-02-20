@@ -2,15 +2,15 @@ Feature: Student workflow
   Scenario: 1 - When get find all students should return all students
     When find all student
     Then return all students
-      | studentId | studentName | studentEmail           | classroomName | registration |
-      | 1         | Student 1   | student1@fakeemail.com | 4°B           | m423af1      |
-      | 2         | Student 2   | student2@fakeemail.com | 4°B           | m34m1en      |
+      | studentId | studentName  | studentEmail           | classroomName | registration |
+      | 1         | Diego Stretz | student1@fakeemail.com | 4°B           | m423af1      |
+      | 2         | Bruno Silva  | student2@fakeemail.com | 4°B           | m34m1en      |
 
   Scenario: 2 - When find student by registration should return a student with that registration
     When find student by registration "m34m1en"
     Then return a student
       | studentId | studentName | studentEmail           | classroomName | registration |
-      | 2         | Student 2   | student2@fakeemail.com | 4°B             | m34m1en      |
+      | 2         | Bruno Silva | student2@fakeemail.com | 4°B             | m34m1en      |
 
   Scenario: 3 - When find student by registration not found should throw an exception
     When find student by registration "m34m1ea"

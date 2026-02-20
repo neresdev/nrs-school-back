@@ -1,10 +1,10 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
-import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.resource.StudentResource;
 import com.nrs.school.back.entities.dto.StudentDTO;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
+import com.nrs.school.back.resource.StudentResource;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
