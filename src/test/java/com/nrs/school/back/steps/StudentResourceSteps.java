@@ -1,6 +1,6 @@
 package com.nrs.school.back.steps;
 
-import com.nrs.school.back.SpringIntegrationTest;
+import com.nrs.school.back.StepDefinitionsDefault;
 import com.nrs.school.back.entities.dto.StudentDTO;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
@@ -8,15 +8,18 @@ import com.nrs.school.back.resource.StudentResource;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StudentResourceSteps extends SpringIntegrationTest {
+public class StudentResourceSteps extends StepDefinitionsDefault {
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
 
@@ -36,8 +39,11 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     private ResponseEntity<StudentDTO> studentUpdated;
 
-    public StudentResourceSteps(StudentResource studentResource) {
+    private final TestRestTemplate testRestTemplate;
+
+    public StudentResourceSteps(StudentResource studentResource, TestRestTemplate testRestTemplate) {
         this.studentResource = studentResource;
+        this.testRestTemplate = testRestTemplate;
     }
 
     @When("find student by registration {string}")
@@ -50,8 +56,9 @@ public class StudentResourceSteps extends SpringIntegrationTest {
 
     }
 
-    @When("find all student")
-    public void findAllStudent() {
+    @When("find all students")
+    public void findAllStudent() throws URISyntaxException {
+        final var response = testRestTemplate.getForEntity(new URI(StudentResource.BASE_PATH), Object.class); // todo wip
         this.studentsReturned = studentResource.findAll();
     }
 

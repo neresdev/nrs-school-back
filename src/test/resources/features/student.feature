@@ -1,6 +1,6 @@
 Feature: Student workflow
   Scenario: 1 - When get find all students should return all students
-    When find all student
+    When find all students
     Then return all students
       | studentId | studentName  | studentEmail           | classroomName | registration |
       | 1         | Diego Stretz | student1@fakeemail.com | 4°B           | m423af1      |
