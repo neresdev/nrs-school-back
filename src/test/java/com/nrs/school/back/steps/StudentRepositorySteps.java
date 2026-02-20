@@ -1,7 +1,7 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.SpringIntegrationTest;
-import com.nrs.school.back.entities.Student;
+import com.nrs.school.back.entities.StudentEntity;
 import com.nrs.school.back.repository.StudentRepository;
 import io.cucumber.java.en.Given;
 
@@ -23,8 +23,8 @@ public class StudentRepositorySteps extends SpringIntegrationTest {
         studentRepository.saveAll(expectedData.stream().map(this::convertFeatureDataToStudentEntity).toList());
     }
 
-    private Student convertFeatureDataToStudentEntity(Map<String, String> data){
-        return new Student(
+    private StudentEntity convertFeatureDataToStudentEntity(Map<String, String> data){
+        return new StudentEntity(
                 null,
                 data.get("studentName"),
                 data.get("studentEmail"),
