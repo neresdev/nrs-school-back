@@ -1,6 +1,6 @@
 package com.nrs.school.back.steps;
 
-import com.nrs.school.back.SpringIntegrationTest;
+import com.nrs.school.back.StepDefinitionsDefault;
 import com.nrs.school.back.entities.StudentEntity;
 import com.nrs.school.back.repository.StudentRepository;
 import io.cucumber.java.en.Given;
@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class StudentRepositorySteps extends SpringIntegrationTest {
+public class StudentRepositorySteps extends StepDefinitionsDefault {
 
     private final StudentRepository studentRepository;
 
