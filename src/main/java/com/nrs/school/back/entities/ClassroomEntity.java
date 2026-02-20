@@ -25,7 +25,7 @@ public class ClassroomEntity {
      * Ex: 5°A
      */
     @Column(name = "CLASS_NAME", nullable = false)
-    private String className;
+    private String classroomName;
 
     /**
      * Maximum students quantity
@@ -53,6 +53,9 @@ public class ClassroomEntity {
     @Column(name = "CLASS_NUMBER", nullable = false)
     private int classNumber;
 
+    @Column(name = "CLASSROOM_REF_CODE")
+    private UUID classroomReferenceCode;
+
     /**
      * Creation date for record
      */
@@ -73,14 +76,15 @@ public class ClassroomEntity {
     public ClassroomEntity() {
     }
 
-    public ClassroomEntity(Long id, String className, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt) {
+    public ClassroomEntity(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, UUID classroomReferenceCode) {
         this.id = id;
-        this.className = className;
+        this.classroomName = classroomName;
         this.capacity = capacity;
         this.teacher = teacher;
         this.shift = shift;
         this.classNumber = classNumber;
         this.createdAt = createdAt;
+        this.classroomReferenceCode = classroomReferenceCode;
     }
 
     public Long getId() {
@@ -91,12 +95,12 @@ public class ClassroomEntity {
         this.id = id;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
     public int getCapacity() {
