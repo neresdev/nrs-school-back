@@ -32,19 +32,19 @@ public class StudentResource {
         this.env = env;
     }
 
-    @GetMapping(BASE_PATH)
+    @GetMapping
     public ResponseEntity<List<StudentDTO>> findAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return ResponseEntity.ok().body(service.findAll());
     }
 
-    @GetMapping(BASE_PATH + CLASSROOM_ID)
+    @GetMapping(CLASSROOM_ID)
     public ResponseEntity<List<StudentDTO>> findAllByClassroomId(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(service.findByClassroomId(classroomId));
     }
 
-    @GetMapping(BASE_PATH + REGISTRATION)
+    @GetMapping(REGISTRATION)
     public ResponseEntity<StudentDTO> findStudentByRegistration(@PathVariable String registration){
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
