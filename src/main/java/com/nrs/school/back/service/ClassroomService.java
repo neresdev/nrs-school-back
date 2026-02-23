@@ -62,10 +62,15 @@ public class ClassroomService {
 
     }
 
-    public ClassroomDTO findByClassroomId(String classroomId) {
-        var classroom = repository.findByClassroomReferenceCode(UUID.fromString(classroomId));
+    public String findClassroomNameById(final Long classroomId) {
+        final var classroom = findById(classroomId);
+        return classroom.getClassroomName();
+    }
+
+    public ClassroomDTO findByClassroomReferenceCode(UUID classroomReferenceCode) {
+        var classroom = repository.findByClassroomReferenceCode(classroomReferenceCode);
         if (classroom.isEmpty()) {
-            throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomId));
+            throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomReferenceCode));
         }
         return mapper.map(classroom, ClassroomDTO.class);
     }
