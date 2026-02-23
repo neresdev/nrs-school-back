@@ -1,6 +1,7 @@
 package com.nrs.school.back.entities;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,7 +21,7 @@ public class StudentEntity {
      * Table identifier
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SQ_STUDENT_IDT")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_STUDENT_IDT")
     @Column(name = "IDT_STUDENT", nullable = false, unique = true)
     private Long studentId;
 
@@ -39,7 +40,7 @@ public class StudentEntity {
     /**
      * Classrooms table identifier
      */
-    @Column(name = "CLASSROOM_ID")
+    @Column(name = "IDT_CLASSROOM")
     private Long classroomId;
 
     /**
@@ -47,6 +48,9 @@ public class StudentEntity {
      */
     @Column(name = "REGISTRATION", unique = true, length = 7)
     private String registration;
+
+    @Column(name = "STUDENT_REF_CODE")
+    private UUID studentReferenceCode;
 
     @Column(name = "CREATED_AT", updatable = false)
     @CreationTimestamp
@@ -59,13 +63,13 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt) {
+    public StudentEntity(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt, UUID studentReferenceCode) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
-        this.classroomId = classroomId;
         this.registration = registration;
         this.createdAt = createdAt;
+        this.studentReferenceCode = studentReferenceCode;
     }
 
     public Long getStudentId() {
@@ -124,4 +128,11 @@ public class StudentEntity {
         this.updatedAt = updatedAt;
     }
 
+    public UUID getStudentReferenceCode() {
+        return studentReferenceCode;
+    }
+
+    public void setStudentReferenceCode(UUID studentReferenceCode) {
+        this.studentReferenceCode = studentReferenceCode;
+    }
 }
