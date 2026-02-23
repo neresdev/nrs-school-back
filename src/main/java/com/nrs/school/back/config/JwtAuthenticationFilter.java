@@ -36,7 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final CustomExceptionResolver customExceptionResolver;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final RequestMappingHandlerMapping handlerMapping;
 
     public JwtAuthenticationFilter(
             CustomExceptionResolver customExceptionResolver,
@@ -48,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.customExceptionResolver = customExceptionResolver;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
-        this.handlerMapping = handlerMapping;
     }
 
     @Override
