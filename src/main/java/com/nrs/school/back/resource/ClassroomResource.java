@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -32,8 +33,8 @@ public class ClassroomResource {
     }
 
     @GetMapping("/classrooms" + CLASSROOM_ID)
-    public ResponseEntity<ClassroomDTO> findByID(@PathVariable String classroomId) {
-        return ResponseEntity.ok(classroomService.findByClassroomId(classroomId));
+    public ResponseEntity<ClassroomDTO> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
+        return ResponseEntity.ok(classroomService.findByClassroomReferenceCode(classroomReferenceCode));
     }
 
     @PostMapping("/create/classroom")
@@ -44,10 +45,10 @@ public class ClassroomResource {
 
         return ResponseEntity
                 .created(servletUriComponentsBuilder.path("/api/v1/get/classroom/" + CLASSROOM_ID)
-                        .buildAndExpand(classroomService.create(classroomDTO)
-                                .getClassroomName()
-                                .replace("°", ""))
-                        .toUri())
+                    .buildAndExpand(classroomService.create(classroomDTO)
+                        .getClassroomName()
+                        .replace("°", ""))
+                    .toUri())
                 .build();
     }
 }
