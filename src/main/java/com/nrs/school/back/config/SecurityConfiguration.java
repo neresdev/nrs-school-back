@@ -17,7 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
+@Profile("!test")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -34,7 +34,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @Profile("!test")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
