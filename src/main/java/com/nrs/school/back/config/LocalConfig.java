@@ -31,8 +31,8 @@ public class LocalConfig {
     @Bean
     public void startDB(){
         clearDB();
-        StudentEntity studentEntity1 = new StudentEntity(null, "Diego Stretz", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        StudentEntity studentEntity2 = new StudentEntity(null, "Bruno Silva", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        StudentEntity studentEntity1 = new StudentEntity(null, "Diego Stretz", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
+        StudentEntity studentEntity2 = new StudentEntity(null, "Bruno Silva", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
 
         ClassroomEntity classroomEntity1 = new ClassroomEntity(null, "4°B", 4, "Brett Gaines", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
         ClassroomEntity classroomEntity2 = new ClassroomEntity(null, "3°C", 39, "Kieran Morrison", 2, 35, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
