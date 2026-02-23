@@ -1,19 +1,22 @@
 Feature: Student workflow
-  Scenario: 1 - When get find all students should return all students
-    When find all students
+  Background:
+    Given authentication was performed
+    And login was performed
+  Scenario: 1 - When the client request all students
+    When the client sends a GET http request get all students
     Then return all students
       | studentId | studentName  | studentEmail           | classroomName | registration |
       | 1         | Diego Stretz | student1@fakeemail.com | 4°B           | m423af1      |
       | 2         | Bruno Silva  | student2@fakeemail.com | 4°B           | m34m1en      |
 
-  Scenario: 2 - When find student by registration should return a student with that registration
-    When find student by registration "m34m1en"
+  Scenario: 2 - When the client request a student with a specific registration
+    When the client sends a GET http request a student with registration "m34m1en"
     Then return a student
       | studentId | studentName | studentEmail           | classroomName | registration |
-      | 2         | Bruno Silva | student2@fakeemail.com | 4°B             | m34m1en      |
+      | 2         | Bruno Silva | student2@fakeemail.com | 4°B           | m34m1en      |
 
   Scenario: 3 - When find student by registration not found should throw an exception
-    When find student by registration "m34m1ea"
+    When the client sends a GET http request a student with registration "m34m1ea"
     Then throw an student not found with registration "m34m1ea" not found
 
   Scenario: 4 - When create a student should return a url from the student created
