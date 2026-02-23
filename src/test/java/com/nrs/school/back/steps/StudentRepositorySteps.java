@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class StudentRepositorySteps extends StepDefinitionsDefault {
 
@@ -30,7 +31,8 @@ public class StudentRepositorySteps extends StepDefinitionsDefault {
                 data.get("studentEmail"),
                 Long.valueOf(data.get("classroomId")),
                 data.get("registration"),
-                new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                UUID.randomUUID()
         );
     }
 }
