@@ -1,90 +1,24 @@
-package com.nrs.school.back.entities.dto;
+package com.nrs.school.back.entities.dto.students;
 
-import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.validation.constraints.NotBlank;
+import java.util.Collections;
+import java.util.List;
 
 public class StudentResponse {
 
-    private StudentsResponse students;
+    private List<StudentDataResponse> students;
 
-    @JsonIgnore
-    private Long studentId;
+    public StudentResponse(List<StudentDataResponse> students) {
+        this.students = students;
+    }
 
-    @NotBlank(message = "Name cannot be blank or null")
-    @Length(max = 255)
-    private String studentName;
-
-    @NotBlank(message = "Email cannot be blank or null")
-    private String studentEmail;
-
-    @Length(max = 3, min = 3, message = "Classroom must have 3 characters")
-    private String classroomName;
-
-    @Length(min = 7, max = 7, message = "Registration must have 7 characters")
-    private String registration;
+    public StudentResponse(StudentDataResponse student) {
+        this.students = Collections.singletonList(student);
+    }
 
     public StudentResponse() {
     }
 
-    public StudentResponse(Long studentId, String studentName, String studentEmail, String classroomName, String registration) {
-        this.studentId = studentId;
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.registration = registration;
-        this.classroomName = classroomName;
+    public List<StudentDataResponse> getStudents() {
+        return students;
     }
-
-    public StudentResponse(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-                           @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
-                           @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.classroomName = classroomName;
-        this.registration = registration;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getStudentEmail() {
-        return studentEmail;
-    }
-
-    public void setStudentEmail(String studentEmail) {
-        this.studentEmail = studentEmail;
-    }
-
-    public String getClassroomName() {
-        return classroomName;
-    }
-
-    public void setClassroomName(String classroomName) {
-        this.classroomName = classroomName;
-    }
-
-    public String getRegistration() {
-        return registration;
-    }
-
-    public void setRegistration(String registration) {
-        this.registration = registration;
-    }
-
-    
 }
