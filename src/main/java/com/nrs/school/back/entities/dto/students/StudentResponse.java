@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class StudentDTO {
+public class StudentResponse {
+
+    private StudentsResponse students;
 
     @JsonIgnore
     private Long studentId;
@@ -24,10 +26,10 @@ public class StudentDTO {
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
 
-    public StudentDTO() {
+    public StudentResponse() {
     }
 
-    public StudentDTO(Long studentId, String studentName, String studentEmail, String classroomName, String registration) {
+    public StudentResponse(Long studentId, String studentName, String studentEmail, String classroomName, String registration) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
@@ -35,9 +37,9 @@ public class StudentDTO {
         this.classroomName = classroomName;
     }
 
-    public StudentDTO(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-                      @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
-                      @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+    public StudentResponse(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
+                           @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
+                           @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.classroomName = classroomName;
