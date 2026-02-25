@@ -49,7 +49,7 @@ public class StudentEntity {
     @Column(name = "REGISTRATION", unique = true, length = 7)
     private String registration;
 
-    @Column(name = "STUDENT_REF_CODE")
+    @Column(name = "STUDENT_REF_CODE", nullable = false)
     private UUID studentReferenceCode;
 
     @Column(name = "CREATED_AT", updatable = false)
@@ -63,11 +63,11 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(String studentName, String studentEmail, String registration, UUID studentReferenceCode) {
+    public StudentEntity(String studentName, String studentEmail, String registration) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.registration = registration;
-        this.studentReferenceCode = studentReferenceCode;
+        this.studentReferenceCode = UUID.randomUUID();
     }
 
     public Long getStudentId() {
