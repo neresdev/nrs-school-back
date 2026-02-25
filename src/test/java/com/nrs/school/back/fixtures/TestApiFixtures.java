@@ -30,12 +30,12 @@ public class TestApiFixtures {
 
     public void authentication() throws URISyntaxException {
         final var user = buildDefaultUser();
-        testRestTemplate.postForEntity(new URI(AuthenticationResource.BASE_PATH + "/signup"), user, UserEntity.class);
+        makePostRequest(AuthenticationResource.BASE_PATH, user, UserEntity.class);
     }
 
     public void login() throws URISyntaxException {
         final var login = buildDefaultLoginUser();
-        final var response = testRestTemplate.postForEntity(new URI(AuthenticationResource.BASE_PATH + "/login"), login, LoginResponse.class);
+        final var response = makePostRequest(AuthenticationResource.BASE_PATH + "/login", login, LoginResponse.class);;
         assert response.getBody() != null;
         token = response.getBody().getToken();
     }
@@ -45,6 +45,15 @@ public class TestApiFixtures {
         headers.setBearerAuth(token);
 
         final var entity = new HttpEntity<>(null, headers);
+
+        return testRestTemplate.exchange(new URI(basePath), HttpMethod.GET, entity, responseType);
+    }
+
+    public <T> ResponseEntity<T> makePostRequest(String basePath, Object body, Class<T> responseType) throws URISyntaxException {
+        final var headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        final var entity = new HttpEntity<>(body, headers);
 
         return testRestTemplate.exchange(new URI(basePath), HttpMethod.GET, entity, responseType);
     }
