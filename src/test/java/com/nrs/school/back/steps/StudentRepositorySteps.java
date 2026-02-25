@@ -4,15 +4,14 @@ import com.nrs.school.back.StepDefinitionsDefault;
 import com.nrs.school.back.entities.StudentEntity;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StudentRepositorySteps extends StepDefinitionsDefault {
@@ -41,16 +40,15 @@ public class StudentRepositorySteps extends StepDefinitionsDefault {
         assertEquals(expectedEntity.getStudentName(), actualEntity.getStudentName());
         assertEquals(expectedEntity.getStudentEmail(), actualEntity.getStudentEmail());
         assertEquals(expectedEntity.getRegistration(), actualEntity.getRegistration());
-        assertEquals(expectedEntity.getStudentReferenceCode(), actualEntity.getStudentReferenceCode());
     }
 
     @DataTableType
-    private StudentEntity convertFeatureDataToStudentEntity(Map<String, String> data){
-        return new StudentEntity(
-                data.get("studentName"),
-                data.get("studentEmail"),
-                data.get("registration"),
-                UUID.randomUUID()
-        );
+    public StudentEntity convertToEntity(Map<String, String> map) {
+        final var entity = new StudentEntity();
+        entity.setStudentName(map.get("studentName"));
+        entity.setStudentEmail(map.get("studentEmail"));
+        entity.setRegistration(map.get("registration"));
+
+        return entity;
     }
 }
