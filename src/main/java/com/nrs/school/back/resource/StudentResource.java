@@ -4,6 +4,7 @@ import com.nrs.school.back.entities.dto.students.StudentDataRequest;
 import com.nrs.school.back.entities.dto.students.StudentDataResponse;
 import com.nrs.school.back.entities.dto.students.StudentResponse;
 import com.nrs.school.back.service.StudentService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = StudentResource.BASE_PATH)
 public class StudentResource {
+
+    @Value("${server.port}")
+    private String port;
 
     public static final String BASE_PATH = "/students" ;
 
@@ -50,24 +54,24 @@ public class StudentResource {
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<StudentDataResponse> create(@RequestBody StudentDataRequest studentResponse){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
-                ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
+                ? ServletUriComponentsBuilder.fromCurrentRequest().port(port)
                 : ServletUriComponentsBuilder.fromCurrentRequest();
 
-        return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION).buildAndExpand(service.create(studentResponse).getRegistration()).toUri()).build();
+        return ResponseEntity.created(servletUriComponentsBuilder.path(REGISTRATION).buildAndExpand(service.create(studentResponse).getRegistration()).toUri()).build();
     }
 
-    @PutMapping("/student")
+    @PutMapping
     public ResponseEntity<StudentDataResponse> update(@RequestBody StudentDataRequest studentResponse){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
-                ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
+                ? ServletUriComponentsBuilder.fromCurrentRequest().port(port)
                 : ServletUriComponentsBuilder.fromCurrentRequest();
 
         var studentUpdated = service.update(studentResponse);
 
-        return ResponseEntity.created(servletUriComponentsBuilder.path("/api/v1/get/student/" + REGISTRATION)
+        return ResponseEntity.created(servletUriComponentsBuilder.path(REGISTRATION)
         .buildAndExpand(studentUpdated.getRegistration()).toUri()).body(studentUpdated);
 
     }
