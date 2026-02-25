@@ -30,12 +30,13 @@ public class TestApiFixtures {
 
     public void authentication() throws URISyntaxException {
         final var user = buildDefaultUser();
-        makePostRequest(AuthenticationResource.BASE_PATH, user, UserEntity.class);
+//        final var teste2 = testRestTemplate.postForEntity(new URI(AuthenticationResource.BASE_PATH + "/signup"), user, UserEntity.class);
+        makePostRequest(AuthenticationResource.BASE_PATH + "/signup", user, UserEntity.class, false);
     }
 
     public void login() throws URISyntaxException {
         final var login = buildDefaultLoginUser();
-        final var response = makePostRequest(AuthenticationResource.BASE_PATH + "/login", login, LoginResponse.class);;
+        final var response = makePostRequest(AuthenticationResource.BASE_PATH + "/login", login, LoginResponse.class, false);
         assert response.getBody() != null;
         token = response.getBody().getToken();
     }
@@ -49,13 +50,22 @@ public class TestApiFixtures {
         return testRestTemplate.exchange(new URI(basePath), HttpMethod.GET, entity, responseType);
     }
 
-    public <T> ResponseEntity<T> makePostRequest(String basePath, Object body, Class<T> responseType) throws URISyntaxException {
+    public <T> ResponseEntity<T> makePostRequest(String path, Object body, Class<T> responseType, boolean needBearerAuth) throws URISyntaxException {
         final var headers = new HttpHeaders();
         headers.setBearerAuth(token);
 
         final var entity = new HttpEntity<>(body, headers);
 
-        return testRestTemplate.exchange(new URI(basePath), HttpMethod.GET, entity, responseType);
+        return testRestTemplate.postForEntity(new URI(path), needBearerAuth ? entity : body, responseType);
+    }
+
+    public <T> ResponseEntity<T> makePutRequest(String path, Object body, Class<T> responseType) throws URISyntaxException {
+        final var headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        final var entity = new HttpEntity<>(body, headers);
+
+        return testRestTemplate.exchange(new URI(path), HttpMethod.PUT, entity, responseType);
     }
 
     private RegisterUserDto buildDefaultUser() {
