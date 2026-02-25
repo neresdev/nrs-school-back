@@ -1,10 +1,9 @@
 package com.nrs.school.back.resource;
 
-import java.util.Arrays;
-import java.util.UUID;
-
 import com.nrs.school.back.entities.dto.students.StudentDataRequest;
 import com.nrs.school.back.entities.dto.students.StudentDataResponse;
+import com.nrs.school.back.entities.dto.students.StudentResponse;
+import com.nrs.school.back.service.StudentService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,8 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.nrs.school.back.entities.dto.students.StudentResponse;
-import com.nrs.school.back.service.StudentService;
+import java.util.Arrays;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = StudentResource.BASE_PATH)
@@ -51,7 +50,7 @@ public class StudentResource {
         return ResponseEntity.ok().body(service.findByRegistration(registration));
     }
 
-    @PostMapping("/student")
+    @PostMapping("/create")
     public ResponseEntity<StudentDataResponse> create(@RequestBody StudentDataRequest studentResponse){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
                 ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
