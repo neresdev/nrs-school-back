@@ -4,7 +4,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +28,8 @@ public class LocalConfig {
     @Bean
     public void startDB(){
         clearDB();
-        StudentEntity studentEntity1 = new StudentEntity("Diego Stretz", "student1@fakeemail.com", "m423af1", UUID.randomUUID());
-        StudentEntity studentEntity2 = new StudentEntity("Bruno Silva", "student2@fakeemail.com", "m34m1en", UUID.randomUUID());
+        StudentEntity studentEntity1 = new StudentEntity("Diego Stretz", "student1@fakeemail.com", "m423af1");
+        StudentEntity studentEntity2 = new StudentEntity("Bruno Silva", "student2@fakeemail.com", "m34m1en");
 
         ClassroomEntity classroomEntity1 = new ClassroomEntity(null, "4°B", 4, "Brett Gaines", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
         ClassroomEntity classroomEntity2 = new ClassroomEntity(null, "3°C", 39, "Kieran Morrison", 2, 35, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
