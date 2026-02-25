@@ -15,15 +15,18 @@ Feature: Student workflow
       | studentId | studentName | studentEmail           | classroomName | registration |
       | 2         | Bruno Silva | student2@fakeemail.com | 4°B           | m34m1en      |
 
-  Scenario: 3 - When find student by registration not found should throw an exception
+  Scenario: 3 - the client request a student with a specific registration but no one is found
     When the client sends a GET http request a student with registration "m34m1ea"
     Then throw an student not found with registration "m34m1ea" not found
 
-  Scenario: 4 - When create a student should return a url from the student created
-    When create a student
-      | studentId | studentName | studentEmail           | classroomName | registration |
-      | 1         | Student 1   | student1@fakeemail.com | 4°B             | m423af2      |
+  Scenario: 4 - When create a student without a classroom should return a url from the student created
+    When create a single student
+      | studentName | studentEmail           | registration |
+      | Student 1   | student1@fakeemail.com | m423af2      |
     Then return a url form the student created
+    And the students were saved in the database
+      | studentName | studentEmail           | registration |
+      | Student 1   | student1@fakeemail.com | m423af2      |
 
   Scenario: 5 - When create student with invalid data should throw an exception
     When create a student
