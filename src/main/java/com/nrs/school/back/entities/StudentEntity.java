@@ -63,12 +63,10 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(Long studentId, String studentName, String studentEmail, Long classroomId, String registration, LocalDateTime createdAt, UUID studentReferenceCode) {
-        this.studentId = studentId;
+    public StudentEntity(String studentName, String studentEmail, String registration, UUID studentReferenceCode) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.registration = registration;
-        this.createdAt = createdAt;
         this.studentReferenceCode = studentReferenceCode;
     }
 
