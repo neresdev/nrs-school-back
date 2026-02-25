@@ -12,9 +12,11 @@ import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,9 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentResourceSteps extends StepDefinitionsDefault {
+
+    @Value("${server.port}")
+    private String port;
 
     private static final String NOT_FOUND_MESSAGE = "Student with registration %s not found";
 
@@ -57,15 +62,14 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
     }
 
     @When("create a single student")
-    public void createStudent(List<StudentDataRequest> students) throws URISyntaxException { // todo wip
+    public void createStudent(List<StudentDataRequest> students) throws URISyntaxException {
         assertEquals(1, students.size(), "create a single student must have only 1 student");
-        studentDataResponse = testApiFixtures.makePostRequest(StudentResource.BASE_PATH + "/create", students.get(0), StudentDataResponse.class);;
+        studentDataResponse = testApiFixtures.makePostRequest(StudentResource.BASE_PATH, students.get(0), StudentDataResponse.class, true);
     }
 
     @When("update student")
-    public void updateStudent(List<Map<String, String>> expectedData) {
-        var studentToUpdate = convertFeatureDataToStudentRequest(expectedData.get(0));
-        this.studentUpdated = studentResource.update(studentToUpdate);
+    public void updateStudent(List<StudentDataRequest> request) throws URISyntaxException { // todo wip
+        studentDataResponse = testApiFixtures.makePutRequest(StudentResource.BASE_PATH, request.get(0), StudentDataResponse.class);
     }
 
     @When("delete student by registration {string}")
@@ -109,20 +113,22 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
         assertFields(expectedStudent, actualStudent);
     }
 
-    @Then("throw an student not found with registration {string} not found")
-    public void throwAnException(String registration) {
-        assertEquals(HttpStatus.NOT_FOUND, studentDataResponse.getStatusCode());
+    @Then("return a response with status code {int}")
+    public void throwAnException(int statusCode) {
+        assertEquals(HttpStatus.valueOf(statusCode), studentDataResponse.getStatusCode());
     }
 
-    @Then("return a url form the student created")
-    public void returnAStudentCreated() {
-        int a = 0;
+    @Then("return a url form the student created with registration {string}")
+    public void returnAStudentCreated(String registration) throws URISyntaxException {
+        final var localhost = "http://localhost:%s".formatted(port);
+        final var expectedLocation = new URI(localhost + StudentResource.BASE_PATH + "/" + registration);
+        final var actualLocation = studentDataResponse.getHeaders().getLocation();
+        assertEquals(expectedLocation, actualLocation);
     }
 
-    @Then("throw an data integrity violation exception")
+    @Then("return a bad request status code")
     public void throwAnDataIntegratyViolationException() {
-        var expectedMessage = "JSON invalid: Email cannot be blank or null; ";
-//        assertEquals(expectedMessage, dataIntegrityViolationInvalidEmailException.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, studentDataResponse.getStatusCode());
     }
 
     @Then("return an student already exists exception")
