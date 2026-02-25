@@ -87,13 +87,15 @@ public class StudentService{
         if(existingEntity.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(existingEntity.get().getRegistration()));
 
         var entity = mapper.map(request, StudentEntity.class);
+        entity.setStudentReferenceCode(UUID.randomUUID());
 
         if(request.getClassroomName() != null) {
             var studentClassroom = classroomService.findClassroomByClassroomName(request.getClassroomName());
             if(studentClassroom.isEmpty()) throw new StudentClassroomNotFoundException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(request.getClassroomName()), StudentError.STUDENT_CLASSROOM_NOT_FOUND);
             entity.setClassroomId(studentClassroom.get().getId());
         }
-        return mapper.map(repository.save(entity), StudentDataResponse.class);
+        final var savedEntity = repository.save(entity);
+        return mapper.map(savedEntity, StudentDataResponse.class);
     }
 
     public StudentDataResponse update(StudentDataRequest request) {
