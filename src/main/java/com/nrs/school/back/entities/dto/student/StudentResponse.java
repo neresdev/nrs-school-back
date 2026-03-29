@@ -1,6 +1,5 @@
-package com.nrs.school.back.entities.dto.students;
+package com.nrs.school.back.entities.dto.student;
 
-import java.util.Collections;
 import java.util.List;
 
 public class StudentResponse {
@@ -9,10 +8,6 @@ public class StudentResponse {
 
     public StudentResponse(List<StudentDataResponse> students) {
         this.students = students;
-    }
-
-    public StudentResponse(StudentDataResponse student) {
-        this.students = Collections.singletonList(student);
     }
 
     public StudentResponse() {

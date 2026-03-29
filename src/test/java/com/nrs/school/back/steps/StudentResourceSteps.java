@@ -1,9 +1,9 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.StepDefinitionsDefault;
-import com.nrs.school.back.entities.dto.students.StudentDataRequest;
-import com.nrs.school.back.entities.dto.students.StudentDataResponse;
-import com.nrs.school.back.entities.dto.students.StudentResponse;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.fixtures.TestApiFixtures;
@@ -68,13 +68,14 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
     }
 
     @When("update student")
-    public void updateStudent(List<StudentDataRequest> request) throws URISyntaxException { // todo wip
+    public void updateStudent(List<StudentDataRequest> request) throws URISyntaxException {
         studentDataResponse = testApiFixtures.makePutRequest(StudentResource.BASE_PATH, request.get(0), StudentDataResponse.class);
     }
 
     @When("delete student by registration {string}")
-    public void deleteStudentByRegistration(String registration) {
-        this.studentResource.delete(registration);
+    public void deleteStudent(String registration) throws URISyntaxException {
+        final var deletePath =  StudentResource.BASE_PATH + "/" + registration;
+        studentDataResponse = testApiFixtures.makeDeleteRequest(deletePath, StudentDataResponse.class);
     }
 
     @And("create a student with existing registration")
@@ -118,8 +119,9 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
         assertEquals(HttpStatus.valueOf(statusCode), studentDataResponse.getStatusCode());
     }
 
+    @Then("return a url form the student updated with registration {string}")
     @Then("return a url form the student created with registration {string}")
-    public void returnAStudentCreated(String registration) throws URISyntaxException {
+    public void returnAUrlStudent(String registration) throws URISyntaxException {
         final var localhost = "http://localhost:%s".formatted(port);
         final var expectedLocation = new URI(localhost + StudentResource.BASE_PATH + "/" + registration);
         final var actualLocation = studentDataResponse.getHeaders().getLocation();
@@ -166,7 +168,7 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
         assertEquals(expected.getRegistration(), actual.getRegistration());
     }
 
-    private StudentDataResponse convertFeatureDataToStudentResponse(Map<String, String> data){
+    private StudentDataResponse convertFeatureDataToStudentResponse(Map<String, String> data) {
         return new StudentDataResponse(
                 data.get("studentName"),
                 data.get("studentEmail"),
@@ -175,7 +177,7 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
         );
     }
 
-    private StudentDataRequest convertFeatureDataToStudentRequest(Map<String, String> data){
+    private StudentDataRequest convertFeatureDataToStudentRequest(Map<String, String> data) {
         return new StudentDataRequest(
                 data.get("studentName"),
                 data.get("studentEmail"),

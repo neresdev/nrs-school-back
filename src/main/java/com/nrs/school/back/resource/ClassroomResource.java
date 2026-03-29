@@ -1,7 +1,8 @@
 package com.nrs.school.back.resource;
 
 
-import com.nrs.school.back.entities.dto.ClassroomDTO;
+import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
+import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
 import com.nrs.school.back.service.ClassroomService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(ClassroomResource.BASE_PATH)
 public class ClassroomResource {
+
+    public static final String BASE_PATH = "/classrooms";
 
     private static final String CLASSROOM_ID = "/{classroomId}";
 
@@ -27,25 +30,25 @@ public class ClassroomResource {
         this.env = env;
     }
 
-    @GetMapping("/classrooms")
-    public ResponseEntity<List<ClassroomDTO>> findAll() {
+    @GetMapping
+    public ResponseEntity<ClassroomResponse> findAll() {
         return ResponseEntity.ok(classroomService.findAll());
     }
 
     @GetMapping("/classrooms" + CLASSROOM_ID)
-    public ResponseEntity<ClassroomDTO> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
+    public ResponseEntity<ClassroomDataResponse> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
         return ResponseEntity.ok(classroomService.findByClassroomReferenceCode(classroomReferenceCode));
     }
 
     @PostMapping("/create/classroom")
-    public ResponseEntity<ClassroomDTO> create(@RequestBody ClassroomDTO classroomDTO){
+    public ResponseEntity<ClassroomDataResponse> create(@RequestBody ClassroomDataResponse classroomDataResponse){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
                 ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
                 : ServletUriComponentsBuilder.fromCurrentRequest();
 
         return ResponseEntity
                 .created(servletUriComponentsBuilder.path("/api/v1/get/classroom/" + CLASSROOM_ID)
-                    .buildAndExpand(classroomService.create(classroomDTO)
+                    .buildAndExpand(classroomService.create(classroomDataResponse)
                         .getClassroomName()
                         .replace("°", ""))
                     .toUri())

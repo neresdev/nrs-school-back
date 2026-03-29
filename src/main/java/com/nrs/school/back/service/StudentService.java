@@ -3,15 +3,15 @@ package com.nrs.school.back.service;
 import java.util.*;
 
 import com.nrs.school.back.enm.StudentError;
-import com.nrs.school.back.entities.dto.students.StudentDataRequest;
-import com.nrs.school.back.entities.dto.students.StudentDataResponse;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
 import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.nrs.school.back.entities.StudentEntity;
-import com.nrs.school.back.entities.dto.students.StudentResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
@@ -107,6 +107,7 @@ public class StudentService{
 
         var studentEntity = mapper.map(request, StudentEntity.class);
         studentEntity.setClassroomId(classroomEntity.get().getId());
+        studentEntity.setStudentReferenceCode(UUID.randomUUID());
 
         return mapper.map(repository.save(studentEntity), StudentDataResponse.class);
     }

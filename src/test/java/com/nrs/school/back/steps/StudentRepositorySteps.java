@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StudentRepositorySteps extends StepDefinitionsDefault {
 
@@ -36,6 +37,11 @@ public class StudentRepositorySteps extends StepDefinitionsDefault {
         });
     }
 
+    @And("there must be no students with registration {string} in database")
+    public void studentWithRegistrationNotExistsInDatabase(final String registration) {
+        assertTrue(studentRepository.findByRegistration(registration).isEmpty());
+    }
+
     private void assertFields(final StudentEntity expectedEntity, final StudentEntity actualEntity) {
         assertEquals(expectedEntity.getStudentName(), actualEntity.getStudentName());
         assertEquals(expectedEntity.getStudentEmail(), actualEntity.getStudentEmail());
@@ -44,11 +50,6 @@ public class StudentRepositorySteps extends StepDefinitionsDefault {
 
     @DataTableType
     public StudentEntity convertToEntity(Map<String, String> map) {
-        final var entity = new StudentEntity();
-        entity.setStudentName(map.get("studentName"));
-        entity.setStudentEmail(map.get("studentEmail"));
-        entity.setRegistration(map.get("registration"));
-
-        return entity;
+        return new StudentEntity(map.get("studentName"), map.get("studentEmail"), map.get("registration"));
     }
 }

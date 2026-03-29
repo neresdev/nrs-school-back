@@ -1,8 +1,8 @@
 package com.nrs.school.back.resource;
 
-import com.nrs.school.back.entities.dto.students.StudentDataRequest;
-import com.nrs.school.back.entities.dto.students.StudentDataResponse;
-import com.nrs.school.back.entities.dto.students.StudentResponse;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.service.StudentService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -76,7 +76,7 @@ public class StudentResource {
 
     }
 
-    @DeleteMapping("/student" + REGISTRATION)
+    @DeleteMapping(REGISTRATION)
     public ResponseEntity<String> delete(@PathVariable String registration){
         service.delete(registration);
         return ResponseEntity.noContent().build();

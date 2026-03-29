@@ -30,15 +30,18 @@ public class TestApiFixtures {
 
     public void authentication() throws URISyntaxException {
         final var user = buildDefaultUser();
-//        final var teste2 = testRestTemplate.postForEntity(new URI(AuthenticationResource.BASE_PATH + "/signup"), user, UserEntity.class);
-        makePostRequest(AuthenticationResource.BASE_PATH + "/signup", user, UserEntity.class, false);
+        if (token == null) {
+            makePostRequest(AuthenticationResource.BASE_PATH + "/signup", user, UserEntity.class, false);
+        }
     }
 
     public void login() throws URISyntaxException {
         final var login = buildDefaultLoginUser();
         final var response = makePostRequest(AuthenticationResource.BASE_PATH + "/login", login, LoginResponse.class, false);
         assert response.getBody() != null;
-        token = response.getBody().getToken();
+        if (token == null) {
+            token = response.getBody().getToken();
+        }
     }
 
     public <T> ResponseEntity<T> makeGetRequest(String basePath, Class<T> responseType) throws URISyntaxException {
@@ -67,6 +70,16 @@ public class TestApiFixtures {
 
         return testRestTemplate.exchange(new URI(path), HttpMethod.PUT, entity, responseType);
     }
+
+    public <T> ResponseEntity<T> makeDeleteRequest(String path, Class<T> responseType) throws URISyntaxException {
+        final var headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        final var entity = new HttpEntity<>(null, headers);
+
+        return testRestTemplate.exchange(new URI(path), HttpMethod.DELETE, entity, responseType);
+    }
+
 
     private RegisterUserDto buildDefaultUser() {
         final var user = new RegisterUserDto();

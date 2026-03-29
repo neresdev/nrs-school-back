@@ -1,10 +1,10 @@
-package com.nrs.school.back.entities.dto;
+package com.nrs.school.back.entities.dto.classroom;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 
-public class ClassroomDTO {
+public class ClassroomDataRequest {
 
     @JsonIgnore
     private Long id;
@@ -28,10 +28,10 @@ public class ClassroomDTO {
     private LocalDateTime updatedAt;
 
 
-    public ClassroomDTO() {
+    public ClassroomDataRequest() {
     }
 
-    public ClassroomDTO(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ClassroomDataRequest(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.classroomName = classroomName;
         this.capacity = capacity;

@@ -43,14 +43,15 @@ Feature: Student workflow
   Scenario: 7 - When client make a put request, then return a url from student updated
     When update student
       | studentId | studentName | studentEmail                  | classroomName | registration |
-      | 3         | Student 3   | student3updated@fakeemail.com | 4°B             | m423af9      |
-    Then return a url form the student with fields updated
-      | studentId | studentName | studentEmail                  | classroomName | registration |
-      | 3         | Student 3   | student3updated@fakeemail.com | 4°B             | m423af9      |
+      | 3         | Student 3   | student3updated@fakeemail.com | 4°B           | m423af9      |
+    Then return a url form the student updated with registration "m423af9"
+    And the students were saved in the database
+      | studentName | studentEmail                  | registration |
+      | Student 3   | student3updated@fakeemail.com | m423af9      |
 
   Scenario: 8 - Delete student by registration
     Given student in database
-      | studentName | studentEmail           | classroomId | registration |
-      | Student 4   | student4@fakeemail.com | 1           | 1n2h4n1      |
+      | studentName | studentEmail           | registration |
+      | Student 4   | student4@fakeemail.com | 1n2h4n1      |
     When delete student by registration "1n2h4n1"
-    Then there must be no students with registration "1n2h4n1"
+    Then there must be no students with registration "1n2h4n1" in database

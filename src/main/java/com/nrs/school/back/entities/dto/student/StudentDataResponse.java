@@ -1,8 +1,8 @@
-package com.nrs.school.back.entities.dto.students;
+package com.nrs.school.back.entities.dto.student;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 public class StudentDataResponse {
 
@@ -14,7 +14,7 @@ public class StudentDataResponse {
     private String studentEmail;
 
     @Length(max = 3, min = 3, message = "Classroom must have 3 characters")
-    @Null
+    @Nullable
     private String classroomName;
 
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
