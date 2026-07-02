@@ -10,6 +10,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.ResponseErrorHandler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,6 +29,17 @@ public class TestApiFixtures {
 
     public TestApiFixtures(TestRestTemplate testRestTemplate) {
         this.testRestTemplate = testRestTemplate;
+        this.testRestTemplate.getRestTemplate().setErrorHandler(new ResponseErrorHandler() {
+            @Override
+            public boolean hasError(ClientHttpResponse response) {
+                return false;
+            }
+
+            @Override
+            public void handleError(ClientHttpResponse response) {
+            }
+        });
+        this.testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
 
     public void authentication() throws URISyntaxException {

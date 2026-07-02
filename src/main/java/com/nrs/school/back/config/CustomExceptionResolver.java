@@ -79,6 +79,10 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseObject.put("error", exception.getMessage());
             responseObject.put("status", HttpServletResponse.SC_BAD_REQUEST);
+        } else if (exception instanceof org.springframework.dao.DataIntegrityViolationException) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseObject.put("error", exception.getMessage());
+            responseObject.put("status", HttpServletResponse.SC_BAD_REQUEST);
         } else if (exception instanceof AccessDeniedException) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseObject.put("error", "You are not authorized to access this resource");
