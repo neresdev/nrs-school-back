@@ -114,4 +114,8 @@ public class ClassroomDataResponse {
     public void setClassroomReferenceCode(UUID classroomReferenceCode) {
         this.classroomReferenceCode = classroomReferenceCode;
     }
+
+    public String getClassroomId() {
+        return classroomReferenceCode != null ? classroomReferenceCode.toString() : null;
+    }
 }

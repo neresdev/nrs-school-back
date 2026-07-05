@@ -35,12 +35,12 @@ public class ClassroomResource {
         return ResponseEntity.ok(classroomService.findAll());
     }
 
-    @GetMapping("/classrooms" + CLASSROOM_ID)
+    @GetMapping(CLASSROOM_ID)
     public ResponseEntity<ClassroomDataResponse> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
         return ResponseEntity.ok(classroomService.findByClassroomReferenceCode(classroomReferenceCode));
     }
 
-    @PostMapping("/create/classroom")
+    @PostMapping("/create")
     public ResponseEntity<ClassroomDataResponse> create(@RequestBody ClassroomDataResponse classroomDataResponse){
         var servletUriComponentsBuilder = Arrays.stream(env.getActiveProfiles()).toList().contains("local") || Arrays.stream(env.getActiveProfiles()).toList().contains("test")
                 ? ServletUriComponentsBuilder.fromCurrentRequest().port("8080")
