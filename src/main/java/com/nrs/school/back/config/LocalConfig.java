@@ -15,7 +15,7 @@ import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
-@Profile({"local-h2", "local-mysql", "test"})
+@Profile({"local-h2", "local-postgres", "test"})
 public class LocalConfig {
     private final StudentRepository studentRepository;
     private final ClassroomRepository classroomRepository;

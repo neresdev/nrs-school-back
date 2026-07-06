@@ -5,9 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: "RootPass*"
-      MYSQL_DATABASE: "NRS_SCHOOL"
-      MYSQL_USER: "develop"
-      MYSQL_PASSWORD: "DevelopPass"
+      POSTGRES_USER: "develop"
+      POSTGRES_PASSWORD: "DevelopPass"
+      POSTGRES_DB: "NRS_SCHOOL"

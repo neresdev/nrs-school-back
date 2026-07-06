@@ -2,21 +2,17 @@ version: '3.4'
 
 services:
   db:
-    image: mysql:8.3.0
-    command: mysqld --default_authentication_plugin=mysql_native_password
+    image: postgres:16-alpine
     restart: always
-    environment:  
+    environment:
       TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_USER: develop
-      MYSQL_PASSWORD: DevelopPass
-      MYSQL_DATABASE: NRS_SCHOOL
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_TCP_PORT: 3308
+      POSTGRES_USER: develop
+      POSTGRES_PASSWORD: DevelopPass
+      POSTGRES_DB: NRS_SCHOOL
     ports:
-      - "3308:3308"
+      - "5432:5432"
     expose:
-      - 3308
+      - 5432
     networks:
       - application-network
 
@@ -25,7 +21,7 @@ services:
     restart: always
     environment:  
       TZ: America/Sao_Paulo
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3308/NRS_SCHOOL?useSSL=false&useTimezone=true&serverTimezone=UTC&enabledTLSProtocols=TLSv1.2
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/NRS_SCHOOL
       SPRING_DATASOURCE_USERNAME: develop
       SPRING_DATASOURCE_PASSWORD: DevelopPass
       SPRING_PROFILE_ACTIVE: dev

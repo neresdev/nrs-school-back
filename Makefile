@@ -1,7 +1,7 @@
 .PHONY: local-env-start local-env-stop
 
-local-env-start:
+local-postgres-start:
 	docker compose -f local-dev/docker-compose.yml up -d
 
-local-env-stop:
+local-postgres-stop:
 	docker compose -f local-dev/docker-compose.yml down
