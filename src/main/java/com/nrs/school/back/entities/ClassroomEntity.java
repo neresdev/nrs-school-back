@@ -17,6 +17,7 @@ public class ClassroomEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_CLASSROOM_IDT")
+    @SequenceGenerator(name = "SQ_CLASSROOM_IDT", sequenceName = "SQ_CLASSROOM_IDT", allocationSize = 1)
     @Column(name = "IDT_CLASSROOM")
     private Long id;
 

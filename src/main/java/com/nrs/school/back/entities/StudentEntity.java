@@ -1,17 +1,11 @@
 package com.nrs.school.back.entities;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "STUDENTS")
@@ -22,19 +16,20 @@ public class StudentEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_STUDENT_IDT")
+    @SequenceGenerator(name = "SQ_STUDENT_IDT", sequenceName = "SQ_STUDENT_IDT", allocationSize = 1)
     @Column(name = "IDT_STUDENT", nullable = false, unique = true)
     private Long studentId;
 
     /**
      * Student name
      */
-    @Column(name = "NAME", nullable = false, length = 255)
+    @Column(name = "NAME", nullable = false)
     private String studentName;
 
     /**
      * Student email
      */
-    @Column(name = "EMAIL", nullable = false, unique = true, length = 255)
+    @Column(name = "EMAIL", nullable = false, unique = true)
     private String studentEmail;
 
     /**
