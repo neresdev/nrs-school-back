@@ -1,10 +1,11 @@
-package com.nrs.school.back.entities.dto;
+package com.nrs.school.back.entities.dto.classroom;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public class ClassroomDTO {
+public class ClassroomDataResponse {
 
     @JsonIgnore
     private Long id;
@@ -19,7 +20,7 @@ public class ClassroomDTO {
 
     private int classNumber;
 
-    private String classroomReferenceCode;
+    private UUID classroomReferenceCode;
 
     @JsonIgnore
     private LocalDateTime createdAt;
@@ -28,10 +29,10 @@ public class ClassroomDTO {
     private LocalDateTime updatedAt;
 
 
-    public ClassroomDTO() {
+    public ClassroomDataResponse() {
     }
 
-    public ClassroomDTO(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ClassroomDataResponse(Long id, String classroomName, int capacity, String teacher, int shift, int classNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.classroomName = classroomName;
         this.capacity = capacity;
@@ -106,11 +107,15 @@ public class ClassroomDTO {
         this.updatedAt = updatedAt;
     }
 
-    public String getClassroomReferenceCode() {
+    public UUID getClassroomReferenceCode() {
         return classroomReferenceCode;
     }
 
-    public void setClassroomReferenceCode(String classroomReferenceCode) {
+    public void setClassroomReferenceCode(UUID classroomReferenceCode) {
         this.classroomReferenceCode = classroomReferenceCode;
+    }
+
+    public String getClassroomId() {
+        return classroomReferenceCode != null ? classroomReferenceCode.toString() : null;
     }
 }

@@ -4,7 +4,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +15,8 @@ import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 
 @Configuration
-@Profile({"local-h2", "local-mysql", "test"})
+@Profile({"local-h2", "local-postgres", "test"})
 public class LocalConfig {
-    private static final Logger log = Logger.getLogger(LocalConfig.class.getName());
-
     private final StudentRepository studentRepository;
     private final ClassroomRepository classroomRepository;
 
@@ -31,8 +28,8 @@ public class LocalConfig {
     @Bean
     public void startDB(){
         clearDB();
-        StudentEntity studentEntity1 = new StudentEntity(null, "Diego Stretz", "student1@fakeemail.com", null, "m423af1", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        StudentEntity studentEntity2 = new StudentEntity(null, "Bruno Silva", "student2@fakeemail.com", null, "m34m1en", new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        StudentEntity studentEntity1 = new StudentEntity("Diego Stretz", "student1@fakeemail.com", "m423af1");
+        StudentEntity studentEntity2 = new StudentEntity("Bruno Silva", "student2@fakeemail.com", "m34m1en");
 
         ClassroomEntity classroomEntity1 = new ClassroomEntity(null, "4°B", 4, "Brett Gaines", 1, 12, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
         ClassroomEntity classroomEntity2 = new ClassroomEntity(null, "3°C", 39, "Kieran Morrison", 2, 35, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());

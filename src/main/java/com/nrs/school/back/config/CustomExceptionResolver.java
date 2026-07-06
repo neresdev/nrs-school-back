@@ -1,6 +1,7 @@
 package com.nrs.school.back.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.MissingAuthorizationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
@@ -74,6 +75,14 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseObject.put("error", "The account is locked");
             responseObject.put("status", HttpServletResponse.SC_FORBIDDEN);
+        } else if (exception instanceof DataIntegrityViolationException) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseObject.put("error", exception.getMessage());
+            responseObject.put("status", HttpServletResponse.SC_BAD_REQUEST);
+        } else if (exception instanceof org.springframework.dao.DataIntegrityViolationException) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseObject.put("error", exception.getMessage());
+            responseObject.put("status", HttpServletResponse.SC_BAD_REQUEST);
         } else if (exception instanceof AccessDeniedException) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseObject.put("error", "You are not authorized to access this resource");

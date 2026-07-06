@@ -1,15 +1,17 @@
 package com.nrs.school.back.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.nrs.school.back.enm.StudentError;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
 import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.nrs.school.back.entities.StudentEntity;
-import com.nrs.school.back.entities.dto.StudentDTO;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.StudentRepository;
@@ -37,82 +39,90 @@ public class StudentService{
         this.classroomService = classroomService;
     }
 
-    public List<StudentDTO> findAll() {
-        return repository.findAll().stream().map(s -> {
-            var classroomName = classroomService.findById(s.getClassroomId()).getClassroomName();
-            var student = mapper.map(s, StudentDTO.class);
-            student.setClassroomName(classroomName);
-            return student;
-        }).collect(Collectors.toList());
+    public StudentResponse findAll() {
+        final var response = getStudentsMapped();
+        return new StudentResponse(response);
     }
 
-    public StudentDTO findByRegistration(String registration) {
-        var student = repository.findByRegistration(registration).orElseThrow(() -> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(registration)));
-
-        var classroomName = classroomService.findById(student.getClassroomId()).getClassroomName();
-
-        var studentDTO = mapper.map(student, StudentDTO.class);
-        studentDTO.setClassroomName(classroomName);
-
-        return studentDTO;
+    private List<StudentDataResponse> getStudentsMapped() {
+        final var entities = repository.findAll();
+        return entities.stream().map(this::mapStudent).toList();
     }
 
-    public List<StudentDTO> findByClassroomId(String classroomId) {
-        var classroom = classroomService.findByClassroomId(classroomId);
-        var students = repository.findByClassroomId(classroom.getId());
-
-        return students.stream().map(s -> {
-            var student = mapper.map(s, StudentDTO.class);
-            student.setClassroomName(classroom.getClassroomName());
-            return mapper.map(student, StudentDTO.class);
-        }).toList();
+    private StudentDataResponse mapStudent(final StudentEntity entity) {
+        final var response = mapper.map(entity, StudentDataResponse.class);
+        resolveClassroomName(response, entity.getClassroomId());
+        return response;
     }
 
-    public StudentDTO create(StudentDTO studentDTO) {
-        String messageValidator = entityValidator(studentDTO);
-        if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
-        
-        Optional<StudentEntity> student = repository.findByRegistration(studentDTO.getRegistration());
+    private void resolveClassroomName(final StudentDataResponse response, @NotNull final Long classroomId) {
+        final var classroomName = classroomService.findClassroomNameById(classroomId);
+        response.setClassroomName(classroomName);
+    }
 
-        if(student.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(student.get().getRegistration()));
+    public StudentDataResponse findByRegistration(String registration) {
+        var entity = repository.findByRegistration(registration).orElseThrow(() -> new ObjectNotFoundException(NOT_FOUND_MESSAGE.formatted(registration)));
+        var response = mapper.map(entity, StudentDataResponse.class);
 
-        var studentEntity = mapper.map(studentDTO, StudentEntity.class);
-
-        if(studentDTO.getClassroomName() != null) {
-            var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
-            if(studentClassroom.isEmpty()) throw new StudentClassroomNotFoundException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()), StudentError.STUDENT_CLASSROOM_NOT_FOUND);
-            studentEntity.setClassroomId(studentClassroom.get().getId());
+        if (entity.getClassroomId() == null) {
+            return response;
         }
 
-        return mapper.map(repository.save(studentEntity), StudentDTO.class);
+        resolveClassroomName(response, entity.getClassroomId());
+        return response;
     }
 
-    public StudentDTO update(StudentDTO studentDTO) {
-        String messageValidator = entityValidator(studentDTO);
+    public StudentResponse findByClassroomReferenceCode(final UUID classroomReferenceCode) {
+        var classroom = classroomService.findByClassroomReferenceCode(classroomReferenceCode);
+        var entities = repository.findByClassroomId(classroom.getId());
+        return new StudentResponse(entities.stream().map(this::mapStudent).toList());
+    }
+
+    public StudentDataResponse create(StudentDataRequest request) {
+        String messageValidator = entityValidator(request);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
         
-        studentDTO.setStudentId(findByRegistration(studentDTO.getRegistration()).getStudentId());
+        Optional<StudentEntity> existingEntity = repository.findByRegistration(request.getRegistration());
 
-        var studentClassroom = classroomService.findClassroomByClassroomName(studentDTO.getClassroomName());
-        if(studentClassroom.isEmpty()) throw new DataIntegrityViolationException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(studentDTO.getClassroomName()));
+        if(existingEntity.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(existingEntity.get().getRegistration()));
 
-        var studentEntity = mapper.map(studentDTO, StudentEntity.class);
-        studentEntity.setClassroomId(studentClassroom.get().getId());
+        var entity = mapper.map(request, StudentEntity.class);
+        entity.setStudentReferenceCode(UUID.randomUUID());
 
-        return mapper.map(repository.save(studentEntity), StudentDTO.class);
+        if(request.getClassroomName() != null) {
+            var studentClassroom = classroomService.findClassroomByClassroomName(request.getClassroomName());
+            if(studentClassroom.isEmpty()) throw new StudentClassroomNotFoundException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(request.getClassroomName()), StudentError.STUDENT_CLASSROOM_NOT_FOUND);
+            entity.setClassroomId(studentClassroom.get().getId());
+        }
+        final var savedEntity = repository.save(entity);
+        return mapper.map(savedEntity, StudentDataResponse.class);
+    }
+
+    public StudentDataResponse update(StudentDataRequest request) {
+        String validator = entityValidator(request);
+        if(!validator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + validator);
+
+        var classroomEntity = classroomService.findClassroomByClassroomName(request.getClassroomName());
+        if(classroomEntity.isEmpty()) throw new DataIntegrityViolationException(STUDENT_CLASSROOM_NOT_FOUND_MESSAGE.formatted(request.getClassroomName()));
+
+        var studentEntity = mapper.map(request, StudentEntity.class);
+        studentEntity.setClassroomId(classroomEntity.get().getId());
+        studentEntity.setStudentReferenceCode(UUID.randomUUID());
+
+        return mapper.map(repository.save(studentEntity), StudentDataResponse.class);
     }
 
     public void delete(String registration) {
-        repository.deleteById(findByRegistration(registration).getStudentId());
+        repository.deleteById(repository.findByRegistration(registration).orElseThrow().getStudentId());
     }
 
-    private String entityValidator(StudentDTO studentsDTO){
+    private String entityValidator(StudentDataRequest studentsDTO){
         String message = "";
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<StudentDTO>> violations = validator.validate(studentsDTO);
+        Set<ConstraintViolation<StudentDataRequest>> violations = validator.validate(studentsDTO);
         if(!violations.isEmpty()){
-            for(ConstraintViolation<StudentDTO> violation: violations) message += violation.getMessage() + "; ";
+            for(ConstraintViolation<StudentDataRequest> violation: violations) message += violation.getMessage() + "; ";
         }
         return message;
 

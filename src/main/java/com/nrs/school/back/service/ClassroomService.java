@@ -1,7 +1,8 @@
 package com.nrs.school.back.service;
 
 import com.nrs.school.back.entities.ClassroomEntity;
-import com.nrs.school.back.entities.dto.ClassroomDTO;
+import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
+import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
 import com.nrs.school.back.exceptions.DataIntegrityViolationException;
 import com.nrs.school.back.exceptions.ObjectNotFoundException;
 import com.nrs.school.back.repository.ClassroomRepository;
@@ -29,45 +30,52 @@ public class ClassroomService {
         this.mapper = mapper;
     }
 
-    public List<ClassroomDTO> findAll() {
-        return repository.findAll().stream().map(c -> mapper.map(c, ClassroomDTO.class)).toList();
+    public ClassroomResponse findAll() {
+        final var entities = repository.findAll();
+        final var classrooms = entities.stream().map(c -> mapper.map(c, ClassroomDataResponse.class)).toList();
+        return new ClassroomResponse(classrooms);
     }
 
-    public ClassroomDTO create(ClassroomDTO classroomDTO) {
-        String messageValidator = entityValidator(classroomDTO);
+    public ClassroomDataResponse create(ClassroomDataResponse classroomDataResponse) {
+        String messageValidator = entityValidator(classroomDataResponse);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
 
-        Optional<ClassroomEntity> classroom = findClassroomByClassroomName(classroomDTO.getClassroomName());
+        Optional<ClassroomEntity> classroom = findClassroomByClassroomName(classroomDataResponse.getClassroomName());
 
         if(classroom.isPresent()) throw new DataIntegrityViolationException(EXISTING_CLASSROOM_MESSAGE.formatted(classroom.get().getClassroomName()));
 
-        var classroomEntity = mapper.map(classroomDTO, ClassroomEntity.class);
+        var classroomEntity = mapper.map(classroomDataResponse, ClassroomEntity.class);
 
-        return mapper.map(repository.save(classroomEntity), ClassroomDTO.class);
+        return mapper.map(repository.save(classroomEntity), ClassroomDataResponse.class);
     }
 
     public ClassroomEntity findById(Long classroomId) {
         return repository.findById(classroomId).orElseThrow(() -> new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomId)));
     }
 
-    private String entityValidator(ClassroomDTO classroomDTO){
+    private String entityValidator(ClassroomDataResponse classroomDataResponse){
         String message = "";
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<ClassroomDTO>> violations = validator.validate(classroomDTO);
+        Set<ConstraintViolation<ClassroomDataResponse>> violations = validator.validate(classroomDataResponse);
         if(!violations.isEmpty()){
-            for(ConstraintViolation<ClassroomDTO> violation: violations) message += violation.getMessage() + "; ";
+            for(ConstraintViolation<ClassroomDataResponse> violation: violations) message += violation.getMessage() + "; ";
         }
         return message;
 
     }
 
-    public ClassroomDTO findByClassroomId(String classroomId) {
-        var classroom = repository.findByClassroomReferenceCode(UUID.fromString(classroomId));
+    public String findClassroomNameById(final Long classroomId) {
+        final var classroom = findById(classroomId);
+        return classroom.getClassroomName();
+    }
+
+    public ClassroomDataResponse findByClassroomReferenceCode(UUID classroomReferenceCode) {
+        var classroom = repository.findByClassroomReferenceCode(classroomReferenceCode);
         if (classroom.isEmpty()) {
-            throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomId));
+            throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomReferenceCode));
         }
-        return mapper.map(classroom, ClassroomDTO.class);
+        return mapper.map(classroom, ClassroomDataResponse.class);
     }
 
     public Optional<ClassroomEntity> findClassroomByClassroomName(String classroomName){

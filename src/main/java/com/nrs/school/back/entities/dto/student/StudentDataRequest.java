@@ -1,15 +1,10 @@
-package com.nrs.school.back.entities.dto;
-
-import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.nrs.school.back.entities.dto.student;
 
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
-public class StudentDTO {
-
-    @JsonIgnore
-    private Long studentId;
+public class StudentDataRequest {
 
     @NotBlank(message = "Name cannot be blank or null")
     @Length(max = 255)
@@ -19,38 +14,26 @@ public class StudentDTO {
     private String studentEmail;
 
     @Length(max = 3, min = 3, message = "Classroom must have 3 characters")
+    @Nullable
     private String classroomName;
 
     @Length(min = 7, max = 7, message = "Registration must have 7 characters")
     private String registration;
 
-    public StudentDTO() {
+    public StudentDataRequest() {
     }
 
-    public StudentDTO(Long studentId, String studentName, String studentEmail, String classroomName, String registration) {
-        this.studentId = studentId;
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.registration = registration;
-        this.classroomName = classroomName;
-    }
 
-    public StudentDTO(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
-                      @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
-                      @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
+    public StudentDataRequest(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
+                               @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
+                               @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.classroomName = classroomName;
         this.registration = registration;
     }
 
-    public Long getStudentId() {
-        return studentId;
-    }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
 
     public String getStudentName() {
         return studentName;
@@ -84,5 +67,4 @@ public class StudentDTO {
         this.registration = registration;
     }
 
-    
 }
