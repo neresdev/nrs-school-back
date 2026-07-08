@@ -40,7 +40,6 @@ public class SecurityConfiguration {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .requiresChannel(c -> c.requestMatchers("/auth/**").requiresInsecure())
                 .authorizeHttpRequests(request ->
                     request.requestMatchers("/auth/**")
                             .permitAll()
