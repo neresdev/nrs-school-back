@@ -11,7 +11,6 @@ public class ClassroomResponse {
     }
 
     public ClassroomResponse (String teste) {
-        int a = 0;
     }
 
     public ClassroomResponse() {

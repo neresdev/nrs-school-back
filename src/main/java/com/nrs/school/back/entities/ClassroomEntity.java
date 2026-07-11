@@ -63,6 +63,13 @@ public class ClassroomEntity {
     @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    public void generateClassroomReferenceCode() {
+        if (this.classroomReferenceCode == null) {
+            this.classroomReferenceCode = UUID.randomUUID();
+        }
+    }
+
     /**
      * Update date for record
      */
@@ -150,5 +157,9 @@ public class ClassroomEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UUID getClassroomReferenceCode() {
+        return classroomReferenceCode;
     }
 }

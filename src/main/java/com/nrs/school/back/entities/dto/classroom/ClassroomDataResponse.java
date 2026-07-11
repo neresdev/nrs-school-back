@@ -115,7 +115,4 @@ public class ClassroomDataResponse {
         this.classroomReferenceCode = classroomReferenceCode;
     }
 
-    public String getClassroomId() {
-        return classroomReferenceCode != null ? classroomReferenceCode.toString() : null;
-    }
 }
