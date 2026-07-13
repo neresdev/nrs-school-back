@@ -25,6 +25,10 @@ public class TestApiFixtures {
 
     private static String token;
 
+    public static void resetToken() {
+        token = null;
+    }
+
     private final TestRestTemplate testRestTemplate;
 
     public TestApiFixtures(TestRestTemplate testRestTemplate) {

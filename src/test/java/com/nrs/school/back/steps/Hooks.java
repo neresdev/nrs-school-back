@@ -1,6 +1,7 @@
 package com.nrs.school.back.steps;
 
 import com.nrs.school.back.StepDefinitionsDefault;
+import com.nrs.school.back.fixtures.TestApiFixtures;
 import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 import com.nrs.school.back.repository.UserRepository;
@@ -23,5 +24,6 @@ public class Hooks extends StepDefinitionsDefault {
         studentRepository.deleteAll();
         classroomRepository.deleteAll();
         userRepository.deleteAll();
+        TestApiFixtures.resetToken();
     }
 }
