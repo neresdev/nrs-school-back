@@ -75,7 +75,7 @@ public class ClassroomService {
         if (classroom.isEmpty()) {
             throw new ObjectNotFoundException(CLASSROOM_NOT_FOUND_MESSAGE.formatted(classroomReferenceCode));
         }
-        return mapper.map(classroom, ClassroomDataResponse.class);
+        return mapper.map(classroom.get(), ClassroomDataResponse.class);
     }
 
     public Optional<ClassroomEntity> findClassroomByClassroomName(String classroomName){

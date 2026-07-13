@@ -1,0 +1,276 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-07-13T00:00:00.000Z",
+  "__export_source": "opencode",
+  "resources": [
+    {
+      "_type": "workspace",
+      "_id": "wrk_nrs_school",
+      "name": "NRS School API",
+      "description": "API do sistema NRS School"
+    },
+    {
+      "_type": "environment",
+      "_id": "env_base",
+      "parentId": "wrk_nrs_school",
+      "name": "Base Environment",
+      "data": {
+        "token": ""
+      }
+    },
+    {
+      "_type": "environment",
+      "_id": "env_local",
+      "parentId": "env_base",
+      "name": "local",
+      "data": {
+        "base_url": "http://localhost:8081"
+      }
+    },
+    {
+      "_type": "environment",
+      "_id": "env_prod",
+      "parentId": "env_base",
+      "name": "prod",
+      "data": {
+        "base_url": "https://nrs-school-back.onrender.com"
+      }
+    },
+    {
+      "_type": "request_group",
+      "_id": "grp_auth",
+      "parentId": "wrk_nrs_school",
+      "name": "Auth",
+      "description": "Autenticação"
+    },
+    {
+      "_type": "request_group",
+      "_id": "grp_classrooms",
+      "parentId": "wrk_nrs_school",
+      "name": "Classrooms",
+      "description": "Gerenciamento de salas de aula"
+    },
+    {
+      "_type": "request_group",
+      "_id": "grp_students",
+      "parentId": "wrk_nrs_school",
+      "name": "Students",
+      "description": "Gerenciamento de estudantes"
+    },
+    {
+      "_type": "request_group",
+      "_id": "grp_users",
+      "parentId": "wrk_nrs_school",
+      "name": "Users",
+      "description": "Gerenciamento de usuários"
+    },
+    {
+      "_type": "request",
+      "_id": "req_signup",
+      "parentId": "grp_auth",
+      "name": "Signup",
+      "url": "{{ _.base_url }}/auth/signup",
+      "method": "POST",
+      "header": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@email.com\",\n  \"password\": \"123456\",\n  \"fullName\": \"Admin\"\n}"
+      },
+      "description": "Registrar novo usuário",
+      "authentication": {}
+    },
+    {
+      "_type": "request",
+      "_id": "req_login",
+      "parentId": "grp_auth",
+      "name": "Login",
+      "url": "{{ _.base_url }}/auth/login",
+      "method": "POST",
+      "header": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@email.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "description": "Autenticar e obter token JWT"
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_all_classrooms",
+      "parentId": "grp_classrooms",
+      "name": "Listar salas",
+      "url": "{{ _.base_url }}/classrooms",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Lista todas as salas de aula"
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_classroom_by_id",
+      "parentId": "grp_classrooms",
+      "name": "Buscar sala por ID",
+      "url": "{{ _.base_url }}/classrooms/{{classroomId}}",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Busca uma sala pelo UUID (classroomReferenceCode)",
+      "parameter": [
+        { "name": "classroomId", "value": "" }
+      ]
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_classroom_students",
+      "parentId": "grp_classrooms",
+      "name": "Buscar alunos da sala",
+      "url": "{{ _.base_url }}/classrooms/classroom-students/{{classroomId}}",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Busca os estudantes de uma sala pelo UUID da turma",
+      "parameter": [
+        { "name": "classroomId", "value": "" }
+      ]
+    },
+    {
+      "_type": "request",
+      "_id": "req_create_classroom",
+      "parentId": "grp_classrooms",
+      "name": "Criar sala",
+      "url": "{{ _.base_url }}/classrooms/create",
+      "method": "POST",
+      "header": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"classroomName\": \"5°A\",\n  \"capacity\": 30,\n  \"teacher\": \"Maria\",\n  \"shift\": 1,\n  \"classNumber\": 101\n}"
+      },
+      "description": "Cria uma nova sala de aula"
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_all_students",
+      "parentId": "grp_students",
+      "name": "Listar alunos",
+      "url": "{{ _.base_url }}/students",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Lista todos os estudantes"
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_student_by_registration",
+      "parentId": "grp_students",
+      "name": "Buscar aluno por matrícula",
+      "url": "{{ _.base_url }}/students/{{registration}}",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Busca um estudante pelo número de matrícula",
+      "parameter": [
+        { "name": "registration", "value": "" }
+      ]
+    },
+    {
+      "_type": "request",
+      "_id": "req_find_students_by_classroom",
+      "parentId": "grp_students",
+      "name": "Buscar alunos por sala",
+      "url": "{{ _.base_url }}/students/classroom/{{classroomId}}",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Busca estudantes pelo UUID da sala de aula",
+      "parameter": [
+        { "name": "classroomId", "value": "" }
+      ]
+    },
+    {
+      "_type": "request",
+      "_id": "req_create_student",
+      "parentId": "grp_students",
+      "name": "Criar aluno",
+      "url": "{{ _.base_url }}/students",
+      "method": "POST",
+      "header": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"studentName\": \"João Silva\",\n  \"studentEmail\": \"joao@email.com\",\n  \"classroomName\": \"5°A\",\n  \"registration\": \"1234567\"\n}"
+      },
+      "description": "Cria um novo estudante"
+    },
+    {
+      "_type": "request",
+      "_id": "req_update_student",
+      "parentId": "grp_students",
+      "name": "Atualizar aluno",
+      "url": "{{ _.base_url }}/students",
+      "method": "PUT",
+      "header": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"studentName\": \"João Silva Atualizado\",\n  \"studentEmail\": \"joao.novo@email.com\",\n  \"classroomName\": \"5°A\",\n  \"registration\": \"1234567\"\n}"
+      },
+      "description": "Atualiza os dados de um estudante"
+    },
+    {
+      "_type": "request",
+      "_id": "req_delete_student",
+      "parentId": "grp_students",
+      "name": "Deletar aluno",
+      "url": "{{ _.base_url }}/students/{{registration}}",
+      "method": "DELETE",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Remove um estudante pelo número de matrícula",
+      "parameter": [
+        { "name": "registration", "value": "" }
+      ]
+    },
+    {
+      "_type": "request",
+      "_id": "req_me",
+      "parentId": "grp_users",
+      "name": "Usuário atual",
+      "url": "{{ _.base_url }}/users/me",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Retorna os dados do usuário autenticado"
+    },
+    {
+      "_type": "request",
+      "_id": "req_all_users",
+      "parentId": "grp_users",
+      "name": "Listar usuários",
+      "url": "{{ _.base_url }}/users/",
+      "method": "GET",
+      "header": [
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "description": "Lista todos os usuários do sistema"
+    }
+  ]
+}

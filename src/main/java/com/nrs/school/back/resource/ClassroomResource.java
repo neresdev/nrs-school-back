@@ -3,7 +3,9 @@ package com.nrs.school.back.resource;
 
 import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
 import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.service.ClassroomService;
+import com.nrs.school.back.service.StudentService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +24,13 @@ public class ClassroomResource {
     private static final String CLASSROOM_ID = "/{classroomId}";
 
     private final ClassroomService classroomService;
+    private final StudentService studentService;
 
     private final Environment env;
 
-    public ClassroomResource(ClassroomService classroomService, Environment env) {
+    public ClassroomResource(ClassroomService classroomService, StudentService studentService, Environment env) {
         this.classroomService = classroomService;
+        this.studentService = studentService;
         this.env = env;
     }
 
@@ -38,6 +42,11 @@ public class ClassroomResource {
     @GetMapping(CLASSROOM_ID)
     public ResponseEntity<ClassroomDataResponse> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
         return ResponseEntity.ok(classroomService.findByClassroomReferenceCode(classroomReferenceCode));
+    }
+
+    @GetMapping("/classroom-students/{classroomId}")
+    public ResponseEntity<StudentResponse> findStudentsByClassroomId(@PathVariable UUID classroomId) {
+        return ResponseEntity.ok(studentService.findByClassroomReferenceCode(classroomId));
     }
 
     @PostMapping("/create")

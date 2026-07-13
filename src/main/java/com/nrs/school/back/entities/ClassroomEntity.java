@@ -162,4 +162,8 @@ public class ClassroomEntity {
     public UUID getClassroomReferenceCode() {
         return classroomReferenceCode;
     }
+
+    public void setClassroomReferenceCode(UUID classroomReferenceCode) {
+        this.classroomReferenceCode = classroomReferenceCode;
+    }
 }
