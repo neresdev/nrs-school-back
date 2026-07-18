@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +20,7 @@ public class ClassroomResource {
 
     public static final String BASE_PATH = "/classrooms";
 
-    private static final String CLASSROOM_ID = "/{classroomId}";
+    private static final String CLASSROOM_REF_CODE = "/{classroomReferenceCode}";
 
     private final ClassroomService classroomService;
     private final StudentService studentService;
@@ -39,14 +38,14 @@ public class ClassroomResource {
         return ResponseEntity.ok(classroomService.findAll());
     }
 
-    @GetMapping(CLASSROOM_ID)
+    @GetMapping(CLASSROOM_REF_CODE)
     public ResponseEntity<ClassroomDataResponse> findByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
         return ResponseEntity.ok(classroomService.findByClassroomReferenceCode(classroomReferenceCode));
     }
 
-    @GetMapping("/classroom-students/{classroomId}")
-    public ResponseEntity<StudentResponse> findStudentsByClassroomId(@PathVariable UUID classroomId) {
-        return ResponseEntity.ok(studentService.findByClassroomReferenceCode(classroomId));
+    @GetMapping("/classroom-students" + CLASSROOM_REF_CODE)
+    public ResponseEntity<StudentResponse> findStudentsByClassroomReferenceCode(@PathVariable UUID classroomReferenceCode) {
+        return ResponseEntity.ok(studentService.findByClassroomReferenceCode(classroomReferenceCode));
     }
 
     @PostMapping("/create")
@@ -56,7 +55,7 @@ public class ClassroomResource {
                 : ServletUriComponentsBuilder.fromCurrentRequest();
 
         return ResponseEntity
-                .created(servletUriComponentsBuilder.path("/api/v1/get/classroom/" + CLASSROOM_ID)
+                .created(servletUriComponentsBuilder.path("/api/v1/get/classroom/" + CLASSROOM_REF_CODE)
                     .buildAndExpand(classroomService.create(classroomDataResponse)
                         .getClassroomName()
                         .replace("°", ""))

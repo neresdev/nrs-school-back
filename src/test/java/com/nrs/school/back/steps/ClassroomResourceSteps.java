@@ -56,11 +56,12 @@ public class ClassroomResourceSteps extends StepDefinitionsDefault {
     }
 
     @Given("a student in this classroom")
-    public void aStudentInThisClassroom() {
+    public void aStudentInThisClassroom(List<Map<String, String>> studentData) {
+        var data = studentData.get(0);
         var student = new StudentEntity();
-        student.setStudentName("Test Student");
-        student.setStudentEmail("test@test.com");
-        student.setRegistration("abc1234");
+        student.setStudentName(data.get("studentName"));
+        student.setStudentEmail(data.get("studentEmail"));
+        student.setRegistration(data.get("registration"));
         student.setStudentReferenceCode(UUID.randomUUID());
         student.setClassroomId(savedClassroom.getId());
         studentRepository.save(student);

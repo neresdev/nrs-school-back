@@ -6,6 +6,7 @@ import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 import com.nrs.school.back.repository.UserRepository;
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 
 public class Hooks extends StepDefinitionsDefault {
 
@@ -19,6 +20,7 @@ public class Hooks extends StepDefinitionsDefault {
         this.userRepository = userRepository;
     }
 
+    @Before
     @After
     public void cleanDatabase() {
         studentRepository.deleteAll();

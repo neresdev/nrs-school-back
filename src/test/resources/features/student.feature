@@ -10,6 +10,12 @@ Feature: Student workflow
       | 2         | Bruno Silva  | student2@fakeemail.com | 4°B           | m34m1en      |
 
   Scenario: 2 - When the client request a student with a specific registration
+    Given a classroom
+      | classroomName | teacher   |
+      | 4°B           | Teacher 1 |
+    And student in database
+      | studentName | studentEmail           | classroomName | registration |
+      | Bruno Silva | student2@fakeemail.com | 4°B           | m34m1en      |
     When the client sends a GET http request a student with registration "m34m1en"
     Then return a student
       | studentId | studentName | studentEmail           | classroomName | registration |
@@ -35,12 +41,18 @@ Feature: Student workflow
     Then return a response with status code 400
 
   Scenario: 6 - When create existing student should return an exception
+    Given student in database
+      | studentName | studentEmail           | registration |
+      | Student 1   | student1@fakeemail.com | m423af1      |
     When create a single student
-      | studentId | studentName | studentEmail           | classRoomId | registration |
-      | 1         | Student 1   | student1@fakeemail.com | 4°B         | m423af1      |
+      | studentName | studentEmail           | classroomName | registration |
+      | Student 1   | student1@fakeemail.com | 4°B           | m423af1      |
     Then return a response with status code 400
 
   Scenario: 7 - When client make a put request, then return a url from student updated
+    Given a classroom
+      | classroomName | teacher   |
+      | 4°B           | Teacher 1 |
     When update student
       | studentId | studentName | studentEmail                  | classroomName | registration |
       | 3         | Student 3   | student3updated@fakeemail.com | 4°B           | m423af9      |

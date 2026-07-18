@@ -12,6 +12,8 @@ Feature: Classroom workflow
 
   Scenario: 2 - When the client request classroom students by classroom reference code
     Given a student in this classroom
+      | studentName   | studentEmail    | registration |
+      | Test Student  | test@test.com   | abc1234      |
     When the client sends a GET http request get classroom students
     Then return all classroom students
       | studentName   | studentEmail    | classroomName | registration |
