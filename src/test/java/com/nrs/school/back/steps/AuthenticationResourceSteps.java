@@ -1,13 +1,12 @@
 package com.nrs.school.back.steps;
 
-import com.nrs.school.back.StepDefinitionsDefault;
-import com.nrs.school.back.entities.UserEntity;
-import com.nrs.school.back.entities.dto.LoginResponse;
-import com.nrs.school.back.entities.dto.LoginUserDto;
-import com.nrs.school.back.entities.dto.RegisterUserDto;
-import com.nrs.school.back.fixtures.TestApiFixtures;
-import com.nrs.school.back.repository.UserRepository;
-import com.nrs.school.back.resource.AuthenticationResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.Map;
+
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,10 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.nrs.school.back.StepDefinitionsDefault;
+import com.nrs.school.back.entities.UserEntity;
+import com.nrs.school.back.entities.dto.LoginResponse;
+import com.nrs.school.back.entities.dto.LoginUserDto;
+import com.nrs.school.back.entities.dto.RegisterUserDto;
+import com.nrs.school.back.fixtures.TestApiFixtures;
+import com.nrs.school.back.repository.UserRepository;
+import com.nrs.school.back.resource.AuthenticationResource;
 
 public class AuthenticationResourceSteps extends StepDefinitionsDefault {
 

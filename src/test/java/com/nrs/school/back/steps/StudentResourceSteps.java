@@ -1,13 +1,15 @@
 package com.nrs.school.back.steps;
 
-import com.nrs.school.back.StepDefinitionsDefault;
-import com.nrs.school.back.entities.dto.student.StudentDataRequest;
-import com.nrs.school.back.entities.dto.student.StudentDataResponse;
-import com.nrs.school.back.entities.dto.student.StudentResponse;
-import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.fixtures.TestApiFixtures;
-import com.nrs.school.back.resource.StudentResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -16,13 +18,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.nrs.school.back.StepDefinitionsDefault;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
+import com.nrs.school.back.exceptions.ObjectNotFoundException;
+import com.nrs.school.back.fixtures.TestApiFixtures;
+import com.nrs.school.back.resource.StudentResource;
 
 public class StudentResourceSteps extends StepDefinitionsDefault {
 
@@ -197,6 +200,5 @@ public class StudentResourceSteps extends StepDefinitionsDefault {
 
         return request;
     }
-
 
 }

@@ -23,7 +23,6 @@ public class StudentDataRequest {
     public StudentDataRequest() {
     }
 
-
     public StudentDataRequest(@NotBlank(message = "Name cannot be blank or null") @Length(max = 255) String studentName,
                                @NotBlank(message = "Email cannot be blank or null") String studentEmail, String classroomName,
                                @Length(min = 7, max = 7, message = "Registration must have 7 characters") String registration) {
@@ -32,8 +31,6 @@ public class StudentDataRequest {
         this.classroomName = classroomName;
         this.registration = registration;
     }
-
-
 
     public String getStudentName() {
         return studentName;

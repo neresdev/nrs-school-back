@@ -1,13 +1,14 @@
 package com.nrs.school.back.service;
 
-import com.nrs.school.back.entities.UserEntity;
-import com.nrs.school.back.entities.dto.LoginUserDto;
-import com.nrs.school.back.entities.dto.RegisterUserDto;
-import com.nrs.school.back.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.nrs.school.back.entities.UserEntity;
+import com.nrs.school.back.entities.dto.LoginUserDto;
+import com.nrs.school.back.entities.dto.RegisterUserDto;
+import com.nrs.school.back.repository.UserRepository;
 
 @Service
 public class AuthenticationService {

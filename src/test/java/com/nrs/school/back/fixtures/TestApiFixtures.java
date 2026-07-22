@@ -1,10 +1,8 @@
 package com.nrs.school.back.fixtures;
 
-import com.nrs.school.back.entities.UserEntity;
-import com.nrs.school.back.entities.dto.LoginResponse;
-import com.nrs.school.back.entities.dto.LoginUserDto;
-import com.nrs.school.back.entities.dto.RegisterUserDto;
-import com.nrs.school.back.resource.AuthenticationResource;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,8 +12,11 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.nrs.school.back.entities.UserEntity;
+import com.nrs.school.back.entities.dto.LoginResponse;
+import com.nrs.school.back.entities.dto.LoginUserDto;
+import com.nrs.school.back.entities.dto.RegisterUserDto;
+import com.nrs.school.back.resource.AuthenticationResource;
 
 public class TestApiFixtures {
 
@@ -97,7 +98,6 @@ public class TestApiFixtures {
 
         return testRestTemplate.exchange(new URI(path), HttpMethod.DELETE, entity, responseType);
     }
-
 
     private RegisterUserDto buildDefaultUser() {
         final var user = new RegisterUserDto();

@@ -36,7 +36,7 @@ public class LocalConfig {
         ClassroomEntity classroomEntity3 = new ClassroomEntity(null, "7°D", 35, "Julio Mayo", 3, 48, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
         ClassroomEntity classroomEntity4 = new ClassroomEntity(null, "2°A", 40, "Hannah Doherty", 2, 97, new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), UUID.randomUUID());
         classroomRepository.saveAll(List.of(classroomEntity1, classroomEntity2, classroomEntity3, classroomEntity4));
-        
+
         studentEntity1.setClassroomId(classroomRepository.findAll().get(0).getId());
         studentEntity2.setClassroomId(classroomRepository.findAll().get(0).getId());
         studentRepository.saveAll(List.of(studentEntity1, studentEntity2));

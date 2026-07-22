@@ -1,9 +1,9 @@
 package com.nrs.school.back.entities.dto.classroom;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ClassroomDataResponse {
 
@@ -27,7 +27,6 @@ public class ClassroomDataResponse {
 
     @JsonIgnore
     private LocalDateTime updatedAt;
-
 
     public ClassroomDataResponse() {
     }

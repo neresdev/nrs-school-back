@@ -1,10 +1,12 @@
 package com.nrs.school.back.config;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.exceptions.MissingAuthorizationException;
-import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,11 +24,10 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
+import com.nrs.school.back.exceptions.MissingAuthorizationException;
+import com.nrs.school.back.exceptions.ObjectNotFoundException;
+import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
 
 @Component
 @ControllerAdvice
@@ -114,7 +115,6 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
             responseObject.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
-
 
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -1,18 +1,23 @@
 package com.nrs.school.back.resource;
 
+import java.util.Arrays;
+import java.util.UUID;
+
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
 import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
 import com.nrs.school.back.entities.dto.student.StudentResponse;
 import com.nrs.school.back.service.ClassroomService;
 import com.nrs.school.back.service.StudentService;
-import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.Arrays;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(ClassroomResource.BASE_PATH)

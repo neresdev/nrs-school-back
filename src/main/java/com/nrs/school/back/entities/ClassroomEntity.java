@@ -1,11 +1,20 @@
 package com.nrs.school.back.entities;
-import jakarta.persistence.*;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.Setter;
 
 @Entity
 @Setter
@@ -33,7 +42,6 @@ public class ClassroomEntity {
      */
     @Column(name = "CAPACITY", nullable = false)
     private int capacity;
-
 
     /**
      * Teacher name for this classroom

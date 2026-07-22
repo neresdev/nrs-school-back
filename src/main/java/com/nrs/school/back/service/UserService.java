@@ -1,11 +1,12 @@
 package com.nrs.school.back.service;
 
-import com.nrs.school.back.entities.UserEntity;
-import com.nrs.school.back.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.nrs.school.back.entities.UserEntity;
+import com.nrs.school.back.repository.UserRepository;
 
 @Service
 public class UserService {

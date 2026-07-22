@@ -1,6 +1,5 @@
 package com.nrs.school.back.enm;
 
-
 public enum StudentError {
     STUDENT_CLASSROOM_NOT_FOUND("S001", "Student classroom does not exists");
 

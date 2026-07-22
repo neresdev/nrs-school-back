@@ -1,11 +1,12 @@
 package com.nrs.school.back.steps;
 
-import com.nrs.school.back.StepDefinitionsDefault;
-import com.nrs.school.back.fixtures.TestApiFixtures;
+import java.net.URISyntaxException;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 
-import java.net.URISyntaxException;
+import com.nrs.school.back.StepDefinitionsDefault;
+import com.nrs.school.back.fixtures.TestApiFixtures;
 
 public class AuthSteps extends StepDefinitionsDefault {
 

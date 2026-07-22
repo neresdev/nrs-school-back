@@ -1,25 +1,27 @@
 package com.nrs.school.back.service;
 
-import java.util.*;
-
-import com.nrs.school.back.enm.StudentError;
-import com.nrs.school.back.entities.dto.student.StudentDataRequest;
-import com.nrs.school.back.entities.dto.student.StudentDataResponse;
-import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
-import jakarta.validation.constraints.NotNull;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
-
-import com.nrs.school.back.entities.StudentEntity;
-import com.nrs.school.back.entities.dto.student.StudentResponse;
-import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.repository.StudentRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotNull;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import com.nrs.school.back.enm.StudentError;
+import com.nrs.school.back.entities.StudentEntity;
+import com.nrs.school.back.entities.dto.student.StudentDataRequest;
+import com.nrs.school.back.entities.dto.student.StudentDataResponse;
+import com.nrs.school.back.entities.dto.student.StudentResponse;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
+import com.nrs.school.back.exceptions.ObjectNotFoundException;
+import com.nrs.school.back.exceptions.StudentClassroomNotFoundException;
+import com.nrs.school.back.repository.StudentRepository;
 
 @Component
 public class StudentService{
@@ -81,7 +83,7 @@ public class StudentService{
     public StudentDataResponse create(StudentDataRequest request) {
         String messageValidator = entityValidator(request);
         if(!messageValidator.isEmpty()) throw new DataIntegrityViolationException(JSON_INVALID_MESSAGE + messageValidator);
-        
+
         Optional<StudentEntity> existingEntity = repository.findByRegistration(request.getRegistration());
 
         if(existingEntity.isPresent()) throw new DataIntegrityViolationException(EXISTING_STUDENT_MESSAGE.formatted(existingEntity.get().getRegistration()));

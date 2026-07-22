@@ -1,11 +1,9 @@
 package com.nrs.school.back.service;
 
-import com.nrs.school.back.entities.ClassroomEntity;
-import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
-import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
-import com.nrs.school.back.exceptions.DataIntegrityViolationException;
-import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.repository.ClassroomRepository;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -13,7 +11,12 @@ import jakarta.validation.ValidatorFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import com.nrs.school.back.entities.ClassroomEntity;
+import com.nrs.school.back.entities.dto.classroom.ClassroomDataResponse;
+import com.nrs.school.back.entities.dto.classroom.ClassroomResponse;
+import com.nrs.school.back.exceptions.DataIntegrityViolationException;
+import com.nrs.school.back.exceptions.ObjectNotFoundException;
+import com.nrs.school.back.repository.ClassroomRepository;
 
 @Component
 public class ClassroomService {

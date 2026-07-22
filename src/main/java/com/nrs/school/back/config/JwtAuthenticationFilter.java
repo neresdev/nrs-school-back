@@ -1,8 +1,7 @@
 package com.nrs.school.back.config;
 
-import com.nrs.school.back.exceptions.MissingAuthorizationException;
-import com.nrs.school.back.exceptions.ObjectNotFoundException;
-import com.nrs.school.back.service.JwtService;
+import java.io.IOException;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,16 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.nrs.school.back.exceptions.MissingAuthorizationException;
+import com.nrs.school.back.service.JwtService;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

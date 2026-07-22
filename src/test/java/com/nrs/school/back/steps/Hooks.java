@@ -1,12 +1,13 @@
 package com.nrs.school.back.steps;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+
 import com.nrs.school.back.StepDefinitionsDefault;
 import com.nrs.school.back.fixtures.TestApiFixtures;
 import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 import com.nrs.school.back.repository.UserRepository;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 
 public class Hooks extends StepDefinitionsDefault {
 

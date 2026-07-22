@@ -1,9 +1,10 @@
 package com.nrs.school.back.config;
 
-import com.nrs.school.back.fixtures.TestApiFixtures;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.nrs.school.back.fixtures.TestApiFixtures;
 
 @Configuration
 public class StepsConfig {

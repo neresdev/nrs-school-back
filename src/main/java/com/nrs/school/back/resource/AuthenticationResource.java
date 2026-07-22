@@ -1,16 +1,17 @@
 package com.nrs.school.back.resource;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.nrs.school.back.entities.UserEntity;
 import com.nrs.school.back.entities.dto.LoginResponse;
 import com.nrs.school.back.entities.dto.LoginUserDto;
 import com.nrs.school.back.entities.dto.RegisterUserDto;
 import com.nrs.school.back.service.AuthenticationService;
 import com.nrs.school.back.service.JwtService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(AuthenticationResource.BASE_PATH)
 @RestController

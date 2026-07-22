@@ -1,7 +1,21 @@
 package com.nrs.school.back.steps;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.springframework.http.ResponseEntity;
+
 import com.nrs.school.back.StepDefinitionsDefault;
 import com.nrs.school.back.entities.ClassroomEntity;
 import com.nrs.school.back.entities.StudentEntity;
@@ -11,19 +25,6 @@ import com.nrs.school.back.fixtures.TestApiFixtures;
 import com.nrs.school.back.repository.ClassroomRepository;
 import com.nrs.school.back.repository.StudentRepository;
 import com.nrs.school.back.resource.ClassroomResource;
-import io.cucumber.java.DataTableType;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import org.springframework.http.ResponseEntity;
-
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClassroomResourceSteps extends StepDefinitionsDefault {
 
