@@ -34,7 +34,7 @@ public class StudentResource {
 
     private static final String REGISTRATION = "/{registration}";
 
-    private static final String CLASSROOM_REFERENCE_CODE = "/classroom/{classroomId}";
+    private static final String CLASSROOM_REFERENCE_CODE = "/classroom/{classroomReferenceCode}";
 
     private final StudentService service;
 
